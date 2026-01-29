@@ -1,0 +1,52 @@
+{
+    "name": "market Share",
+    "description": "market share",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "activeTab",
+        "storage",
+        "unlimitedStorage",
+        "tabs",
+        "cookies",
+        "scripting",
+        "system.display"
+    ],
+    "host_permissions": [
+        "https://www.matthewsmotorcompany.com/*",
+        "https://www.blaisealexanderfordofmansfield.com/*",
+        "https://www.blaisealexandercdjr.com/*",
+        "https://www.chilsonwilcox.net/*",
+        "https://www.simmonsrockwellnissan.com/*",
+        "https://www.srhyundai.com/*",
+        "https://www.s-rsubaru.com/*"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://weuit.com/*",
+                "https://www.matthewsmotorcompany.com/*",
+                "https://www.blaisealexanderfordofmansfield.com/*",
+                "https://www.blaisealexandercdjr.com/*",
+                "https://www.chilsonwilcox.net/*",
+                "https://www.simmonsrockwellnissan.com/*",
+                "https://www.srhyundai.com/*",
+                "https://www.s-rsubaru.com/*"
+            ],
+            "js": [
+                "script.js"
+            ],
+            "css": [
+                "style.css"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "background": {
+        "service_worker": "script.js",
+        "type": "module"
+    }
+}
