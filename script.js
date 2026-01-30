@@ -4714,10 +4714,39 @@ const contentScripts = {
         generalUtilities.showDebugButton('Download', async () => {
             const allListingsDB = new ChromeStorage('allListings');
             const allListings = await allListingsDB.GET();
-            console.log(allListings)
-            generalUtilities.downloadJSON(allListings, `scraped_listings_${new Date().toISOString()}.json`);
-        });
 
+            if (!allListings || allListings.length === 0) {
+                console.warn("No listings to download.");
+                return;
+            }
+
+            // 1. Convert JSON to CSV
+            const headers = Object.keys(allListings[0]);
+            const csvRows = [
+                headers.join(','), // Header row
+                ...allListings.map(row =>
+                    headers.map(fieldName => {
+                        // Wrap values in quotes to handle commas/newlines safely
+                        const val = row[fieldName] === null || row[fieldName] === undefined ? '' : row[fieldName];
+                        return JSON.stringify(val);
+                    }).join(',')
+                )
+            ];
+            const csvString = csvRows.join('\n');
+
+            // 2. Trigger Download
+            const blob = new Blob([csvString], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'allListings.csv';
+            document.body.appendChild(a);
+            a.click();
+
+            // Cleanup
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
 
     },
     scrapingProcess: {
@@ -5011,9 +5040,9 @@ const contentScripts = {
                 }
                 console.log(`Total records: ${totalElm}`);
                 const listings = [];
-                for (let i=0;i<listingElements.length;i++) {
+                for (let i = 0; i < listingElements.length; i++) {
                     const elm = listingElements[i];
-                    await contentScripts.scrapUpdate(`page::${page} / ${totalPages}_list::${i+1} / ${listingElements.length}`);
+                    await contentScripts.scrapUpdate(`page::${page} / ${totalPages}_list::${i + 1} / ${listingElements.length}`);
                     const previousScriptSiblingElm = elm.previousElementSibling;
                     const scriptContent = previousScriptSiblingElm.textContent;
                     const jsonData = JSON.parse(scriptContent);
@@ -5104,193 +5133,193 @@ const contentScripts = {
         const dealerScrapingIndexDB = new ChromeStorage('dealerScrapingIndex');
         let dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
         const scrapingMeta = contentScripts.scrapingMeta;
-        generalUtilities.showDataOnConsoleDynamic(`${dealerScrapingIndex+1} / ${scrapingMeta.length}:: ${text}`);
+        generalUtilities.showDataOnConsoleDynamic(`${dealerScrapingIndex + 1} / ${scrapingMeta.length}:: ${text}`);
     },
     scrapingMeta: [
-        // {
-        //     scrapingType: 'searchHtml',
-        //     baseUrl: "https://www.mansfieldmotorspa.com",
-        //     type: "Used",
-        //     name: 'Mansfield Motors',
-        //     referrer: "https://www.mansfieldmotorspa.com/cars-for-sale",
-        //     pageSize: 24,
-        //     group: "A",
-        // },
-        // {
-        //     scrapingType: 'searchHtml',
-        //     baseUrl: "https://www.allwheelsdriven.com",
-        //     type: "Used",
-        //     name: 'All Wheels Driven',
-        //     referrer: "https://www.allwheelsdriven.com/cars-for-sale",
-        //     pageSize: 24,
-        //     group: "A",
-        // },
-        // {
-        //     scrapingType: 'dotnet',
-        //     apiUrl: "https://www.blaisechevymansfield.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28760/3007642?host=www.blaisechevymansfield.com&pn=24&baseFilter=dHlwZT0nbic=&pt=",
-        //     type: "New",
-        //     name: 'Blaise Alexander Chevrolet of Mansfield',
-        //     referrer: "https://www.blaisechevymansfield.com/searchnew.aspx?pt=1",
-        //     baseUrl: "https://www.blaisechevymansfield.com",
-        //     group: "A",
-        // },
-        // {
-        //     scrapingType: 'dotnet',
-        //     apiUrl: "https://www.blaisechevymansfield.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28760/3007684?Dealership=Blaise%20Alexander%20Chevrolet%20of%20Mansfield&host=www.blaisechevymansfield.com&pn=24&baseFilter=dHlwZT0ndSc=&pt=",
-        //     type: "Used",
-        //     name: 'Blaise Alexander Chevrolet of Mansfield',
-        //     referrer: "https://www.blaisechevymansfield.com/searchused.aspx?Dealership=Blaise%20Alexander%20Chevrolet%20of%20Mansfield&pt=1",
-        //     baseUrl: "https://www.blaisechevymansfield.com",
-        //     group: "A",
-        // },
-        // {
-        //     scrapingType: 'dotnet',
-        //     apiUrl: "https://www.elklandchevy.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28190/2948967?Location=Elkland%2C%20PA&host=www.elklandchevy.com&pn=24&baseFilter=dHlwZT0nbic=&pt=",
-        //     type: "New",
-        //     name: 'Elkland Chevy',
-        //     referrer: "https://www.elklandchevy.com/searchnew.aspx?Location=Elkland%2C%20PA",
-        //     baseUrl: "https://www.elklandchevy.com",
-        //     group: "A",
-        // },
-        // {
-        //     scrapingType: 'dotnet',
-        //     apiUrl: "https://www.elklandchevy.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28190/2949009?Location=Elkland%2C%20PA&host=www.elklandchevy.com&pn=24&baseFilter=dHlwZT0ndSc=&pt=",
-        //     type: "Used",
-        //     name: 'Elkland Chevy',
-        //     referrer: "https://www.elklandchevy.com/searchused.aspx?Location=Elkland%2C%20PA&pt=1",
-        //     baseUrl: "https://www.elklandchevy.com",
-        //     group: "A",
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Matthews Motor Company",
-        //     "type": "Used",
-        //     "baseUrl": "https://www.matthewsmotorcompany.com",
-        //     "referrer": "https://www.matthewsmotorcompany.com/used-inventory/index.htm",
-        //     "siteId": "matthewsmotorcompanycovington",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-        //     "pageId": "matthewsmotorcompanycovington_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-        //     "listingConfigId": "auto-used",
-        //     "inventoryParametersAccountId": null
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Blaise Alexander Ford of Mansfield",
-        //     "type": "New",
-        //     "baseUrl": "https://www.blaisealexanderfordofmansfield.com",
-        //     "referrer": "https://www.blaisealexanderfordofmansfield.com/new-inventory/index.htm",
-        //     "siteId": "blaisealexandermansfieldfordfd",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-        //     "listingConfigId": "auto-new",
-        //     "inventoryParametersAccountId": null
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Blaise Alexander Ford of Mansfield",
-        //     "type": "Used",
-        //     "baseUrl": "https://www.blaisealexanderfordofmansfield.com",
-        //     "referrer": "https://www.blaisealexanderfordofmansfield.com/used-inventory/index.htm?accountId=blaisealexandermansfieldfordfd",
-        //     "siteId": "blaisealexandermansfieldfordfd",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-        //     "listingConfigId": "auto-used",
-        //     "inventoryParametersAccountId": "blaisealexandermansfieldfordfd"
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Blaise Alexander Chrysler Dodge Jeep Ram Mansfield",
-        //     "type": "New",
-        //     "baseUrl": "https://www.blaisealexandercdjr.com",
-        //     "referrer": "https://www.blaisealexandercdjr.com/new-inventory/index.htm",
-        //     "siteId": "blaisealexanderchryslerdodgejecllc",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-        //     "listingConfigId": "auto-new",
-        //     "inventoryParametersAccountId": null
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Blaise Alexander Chrysler Dodge Jeep Ram Mansfield",
-        //     "type": "Used",
-        //     "baseUrl": "https://www.blaisealexandercdjr.com",
-        //     "referrer": "https://www.blaisealexandercdjr.com/used-inventory/index.htm?accountId=blaisealexanderchryslerdodgejecllc",
-        //     "siteId": "blaisealexanderchryslerdodgejecllc",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-        //     "listingConfigId": "auto-used",
-        //     "inventoryParametersAccountId": "blaisealexanderchryslerdodgejecllc"
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Chilson Wilcox",
-        //     "type": "New",
-        //     "baseUrl": "https://www.chilsonwilcox.net",
-        //     "referrer": "https://www.chilsonwilcox.net/new-inventory/index.htm",
-        //     "siteId": "chilsonwilcoxnycllc",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-        //     "listingConfigId": "auto-new",
-        //     "inventoryParametersAccountId": null
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Chilson Wilcox",
-        //     "type": "Used",
-        //     "baseUrl": "https://www.chilsonwilcox.net",
-        //     "referrer": "https://www.chilsonwilcox.net/used-inventory/index.htm",
-        //     "siteId": "chilsonwilcoxnycllc",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-        //     "listingConfigId": "auto-used",
-        //     "inventoryParametersAccountId": null
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Simmons-Rockwell Nissan",
-        //     "type": "New",
-        //     "baseUrl": "https://www.simmonsrockwellnissan.com",
-        //     "referrer": "https://www.simmonsrockwellnissan.com/new-inventory/index.htm",
-        //     "siteId": "simmonsrockwellnissaninc",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-        //     "pageId": "simmonsrockwellnissaninc_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-        //     "listingConfigId": "auto-new",
-        //     "inventoryParametersAccountId": null
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Simmons-Rockwell Nissan",
-        //     "type": "Used",
-        //     "baseUrl": "https://www.simmonsrockwellnissan.com",
-        //     "referrer": "https://www.simmonsrockwellnissan.com/used-inventory/index.htm",
-        //     "siteId": "simmonsrockwellnissaninc",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-        //     "pageId": "simmonsrockwellnissaninc_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-        //     "listingConfigId": "auto-used",
-        //     "inventoryParametersAccountId": null
-        // },
-        // {
-        //     "scrapingType": "getInventory",
-        //     "group": "A",
-        //     "name": "Simmons-Rockwell Hyundai",
-        //     "type": "New",
-        //     "baseUrl": "https://www.srhyundai.com",
-        //     "referrer": "https://www.srhyundai.com/new-inventory/index.htm",
-        //     "siteId": "simmonsrockwellhyundai",
-        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-        //     "listingConfigId": "auto-new",
-        //     "inventoryParametersAccountId": null
-        // },
+        {
+            scrapingType: 'searchHtml',
+            baseUrl: "https://www.mansfieldmotorspa.com",
+            type: "Used",
+            name: 'Mansfield Motors',
+            referrer: "https://www.mansfieldmotorspa.com/cars-for-sale",
+            pageSize: 24,
+            group: "A",
+        },
+        {
+            scrapingType: 'searchHtml',
+            baseUrl: "https://www.allwheelsdriven.com",
+            type: "Used",
+            name: 'All Wheels Driven',
+            referrer: "https://www.allwheelsdriven.com/cars-for-sale",
+            pageSize: 24,
+            group: "A",
+        },
+        {
+            scrapingType: 'dotnet',
+            apiUrl: "https://www.blaisechevymansfield.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28760/3007642?host=www.blaisechevymansfield.com&pn=24&baseFilter=dHlwZT0nbic=&pt=",
+            type: "New",
+            name: 'Blaise Alexander Chevrolet of Mansfield',
+            referrer: "https://www.blaisechevymansfield.com/searchnew.aspx?pt=1",
+            baseUrl: "https://www.blaisechevymansfield.com",
+            group: "A",
+        },
+        {
+            scrapingType: 'dotnet',
+            apiUrl: "https://www.blaisechevymansfield.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28760/3007684?Dealership=Blaise%20Alexander%20Chevrolet%20of%20Mansfield&host=www.blaisechevymansfield.com&pn=24&baseFilter=dHlwZT0ndSc=&pt=",
+            type: "Used",
+            name: 'Blaise Alexander Chevrolet of Mansfield',
+            referrer: "https://www.blaisechevymansfield.com/searchused.aspx?Dealership=Blaise%20Alexander%20Chevrolet%20of%20Mansfield&pt=1",
+            baseUrl: "https://www.blaisechevymansfield.com",
+            group: "A",
+        },
+        {
+            scrapingType: 'dotnet',
+            apiUrl: "https://www.elklandchevy.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28190/2948967?Location=Elkland%2C%20PA&host=www.elklandchevy.com&pn=24&baseFilter=dHlwZT0nbic=&pt=",
+            type: "New",
+            name: 'Elkland Chevy',
+            referrer: "https://www.elklandchevy.com/searchnew.aspx?Location=Elkland%2C%20PA",
+            baseUrl: "https://www.elklandchevy.com",
+            group: "A",
+        },
+        {
+            scrapingType: 'dotnet',
+            apiUrl: "https://www.elklandchevy.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28190/2949009?Location=Elkland%2C%20PA&host=www.elklandchevy.com&pn=24&baseFilter=dHlwZT0ndSc=&pt=",
+            type: "Used",
+            name: 'Elkland Chevy',
+            referrer: "https://www.elklandchevy.com/searchused.aspx?Location=Elkland%2C%20PA&pt=1",
+            baseUrl: "https://www.elklandchevy.com",
+            group: "A",
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Matthews Motor Company",
+            "type": "Used",
+            "baseUrl": "https://www.matthewsmotorcompany.com",
+            "referrer": "https://www.matthewsmotorcompany.com/used-inventory/index.htm",
+            "siteId": "matthewsmotorcompanycovington",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+            "pageId": "matthewsmotorcompanycovington_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+            "listingConfigId": "auto-used",
+            "inventoryParametersAccountId": null
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Blaise Alexander Ford of Mansfield",
+            "type": "New",
+            "baseUrl": "https://www.blaisealexanderfordofmansfield.com",
+            "referrer": "https://www.blaisealexanderfordofmansfield.com/new-inventory/index.htm",
+            "siteId": "blaisealexandermansfieldfordfd",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+            "listingConfigId": "auto-new",
+            "inventoryParametersAccountId": null
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Blaise Alexander Ford of Mansfield",
+            "type": "Used",
+            "baseUrl": "https://www.blaisealexanderfordofmansfield.com",
+            "referrer": "https://www.blaisealexanderfordofmansfield.com/used-inventory/index.htm?accountId=blaisealexandermansfieldfordfd",
+            "siteId": "blaisealexandermansfieldfordfd",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+            "listingConfigId": "auto-used",
+            "inventoryParametersAccountId": "blaisealexandermansfieldfordfd"
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Blaise Alexander Chrysler Dodge Jeep Ram Mansfield",
+            "type": "New",
+            "baseUrl": "https://www.blaisealexandercdjr.com",
+            "referrer": "https://www.blaisealexandercdjr.com/new-inventory/index.htm",
+            "siteId": "blaisealexanderchryslerdodgejecllc",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+            "listingConfigId": "auto-new",
+            "inventoryParametersAccountId": null
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Blaise Alexander Chrysler Dodge Jeep Ram Mansfield",
+            "type": "Used",
+            "baseUrl": "https://www.blaisealexandercdjr.com",
+            "referrer": "https://www.blaisealexandercdjr.com/used-inventory/index.htm?accountId=blaisealexanderchryslerdodgejecllc",
+            "siteId": "blaisealexanderchryslerdodgejecllc",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+            "listingConfigId": "auto-used",
+            "inventoryParametersAccountId": "blaisealexanderchryslerdodgejecllc"
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Chilson Wilcox",
+            "type": "New",
+            "baseUrl": "https://www.chilsonwilcox.net",
+            "referrer": "https://www.chilsonwilcox.net/new-inventory/index.htm",
+            "siteId": "chilsonwilcoxnycllc",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+            "listingConfigId": "auto-new",
+            "inventoryParametersAccountId": null
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Chilson Wilcox",
+            "type": "Used",
+            "baseUrl": "https://www.chilsonwilcox.net",
+            "referrer": "https://www.chilsonwilcox.net/used-inventory/index.htm",
+            "siteId": "chilsonwilcoxnycllc",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+            "listingConfigId": "auto-used",
+            "inventoryParametersAccountId": null
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Simmons-Rockwell Nissan",
+            "type": "New",
+            "baseUrl": "https://www.simmonsrockwellnissan.com",
+            "referrer": "https://www.simmonsrockwellnissan.com/new-inventory/index.htm",
+            "siteId": "simmonsrockwellnissaninc",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+            "pageId": "simmonsrockwellnissaninc_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+            "listingConfigId": "auto-new",
+            "inventoryParametersAccountId": null
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Simmons-Rockwell Nissan",
+            "type": "Used",
+            "baseUrl": "https://www.simmonsrockwellnissan.com",
+            "referrer": "https://www.simmonsrockwellnissan.com/used-inventory/index.htm",
+            "siteId": "simmonsrockwellnissaninc",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+            "pageId": "simmonsrockwellnissaninc_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+            "listingConfigId": "auto-used",
+            "inventoryParametersAccountId": null
+        },
+        {
+            "scrapingType": "getInventory",
+            "group": "A",
+            "name": "Simmons-Rockwell Hyundai",
+            "type": "New",
+            "baseUrl": "https://www.srhyundai.com",
+            "referrer": "https://www.srhyundai.com/new-inventory/index.htm",
+            "siteId": "simmonsrockwellhyundai",
+            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+            "listingConfigId": "auto-new",
+            "inventoryParametersAccountId": null
+        },
         {
             "scrapingType": "getInventory",
             "group": "A",
