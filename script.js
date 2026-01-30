@@ -4885,7 +4885,7 @@ const contentScripts = {
             console.log({ totalCount, pageSize, totalPages });
             const allListings = [];
             for (let page = 0; page < totalPages; page++) {
-                console.log(`Fetching page ${page + 1} / ${totalPages}`);
+                await contentScripts.scrapUpdate(`page ${page + 1} / ${totalPages}`);
                 const start = page * pageSize;
                 const { listings } = await singlePage(start);
                 allListings.push(...listings);
@@ -4897,637 +4897,400 @@ const contentScripts = {
             const existingListings = await allListingsDB.GET();
             await allListingsDB.SET(existingListings ? existingListings.concat(allListings) : allListings);
             return allListings;
+        },
+        dotnet: async ({
+            apiUrl,
+            referrer,
+            name,
+            type,
+
+        }) => {
+            const singlePage = async (page = 1) => {
+                const res = await fetch(`${apiUrl}${page}`, {
+                    "headers": {
+                        "accept": "*/*",
+                        "accept-language": "en-US,en;q=0.9",
+                        "priority": "u=1, i",
+                        "sec-ch-ua": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\"",
+                        "sec-ch-ua-mobile": "?0",
+                        "sec-ch-ua-platform": "\"Windows\"",
+                        "sec-fetch-dest": "empty",
+                        "sec-fetch-mode": "cors",
+                        "sec-fetch-site": "same-origin"
+                    },
+                    "referrer": referrer,
+                    "body": null,
+                    "method": "GET",
+                    "mode": "cors",
+                    "credentials": "include"
+                });
+                const data = await res.json();
+                const listings = [];
+                console.log(data)
+                for (const item of data.DisplayCards) {
+                    listings.push({
+                        "Dealer Group": "A",
+                        "Dealership Name": name,
+                        // title case
+                        "Used or New": type,
+                        "URL": item.VehicleCard.VehicleDetailUrl,
+                        "Year": item.VehicleCard.VehicleYear,
+                        "Make": item.VehicleCard.VehicleMake,
+                        "Model": item.VehicleCard.VehicleModel,
+                        "Trim": item.VehicleCard.VehicleTrim,
+                        "Price": item.VehicleCard.VehicleMsrp,
+                        // "2 mi" => 2
+                        "Mileage": item.VehicleCard.Mileage?.replace(/\s+mi/g, "") || 0,
+                        "Vin#": item.VehicleCard.VehicleVin,
+                        "Date": new Date().toLocaleDateString("en-US")
+                    });
+                }
+                return {
+                    totalPages: data.Paging.PaginationDataModel.TotalPages,
+                    listings
+                }
+
+            };
+            const { totalPages } = await singlePage();
+            const allListings = [];
+            for (let page = 1; page <= totalPages; page++) {
+                await contentScripts.scrapUpdate(`page ${page} / ${totalPages}`);
+                const { listings } = await singlePage(page);
+                allListings.push(...listings);
+            }
+            console.log(`Fetched ${allListings.length} total listings`);
+            console.log(allListings);
+            const allListingsDB = new ChromeStorage('allListings');
+            // add with existing
+            const existingListings = await allListingsDB.GET();
+            await allListingsDB.SET(existingListings ? existingListings.concat(allListings) : allListings);
+            return allListings;
+        },
+        searchHtml: async ({
+            referrer,
+            baseUrl,
+            name,
+            type,
+            pageSize,
+            group
+        }) => {
+            const singlePage = async (page = 1, vin = true) => {
+                const res = await fetch(`${baseUrl}/inventory/search`, {
+                    "headers": {
+                        "accept": "*/*",
+                        "accept-language": "en-US,en;q=0.9",
+                        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                        "priority": "u=1, i",
+                        "sec-ch-device-memory": "8",
+                        "sec-ch-ua": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\"",
+                        "sec-ch-ua-arch": "\"x86\"",
+                        "sec-ch-ua-full-version-list": "\"Not(A:Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"144.0.7559.96\", \"Google Chrome\";v=\"144.0.7559.96\"",
+                        "sec-ch-ua-mobile": "?0",
+                        "sec-ch-ua-model": "\"\"",
+                        "sec-ch-ua-platform": "\"Windows\"",
+                        "sec-fetch-dest": "empty",
+                        "sec-fetch-mode": "cors",
+                        "sec-fetch-site": "same-origin",
+                        "x-requested-with": "XMLHttpRequest"
+                    },
+                    "referrer": referrer,
+                    "body": `PageNumber=${page}&Sort=MakeAsc&StockNumber=&Condition=&BodyStyle=&Make=&MaxPrice=&Mileage=&SoldStatus=AllVehicles&StockNumber=&X-Requested-With=XMLHttpRequest`,
+                    "method": "POST",
+                    "mode": "cors",
+                    "credentials": "include"
+                });
+                // html text
+                const text = await res.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const listingElements = doc.querySelectorAll('li.vehicle-snapshot');
+                console.log(`Found ${listingElements.length} listings on page ${page}`);
+                const totalElm = doc.querySelector('.data-inventory-total-records').value;
+                if (!vin) {
+                    return { listings: [], totalPages: Math.ceil(totalElm / pageSize) };
+                }
+                console.log(`Total records: ${totalElm}`);
+                const listings = [];
+                for (let i=0;i<listingElements.length;i++) {
+                    const elm = listingElements[i];
+                    await contentScripts.scrapUpdate(`page::${page} / ${totalPages}_list::${i+1} / ${listingElements.length}`);
+                    const previousScriptSiblingElm = elm.previousElementSibling;
+                    const scriptContent = previousScriptSiblingElm.textContent;
+                    const jsonData = JSON.parse(scriptContent);
+                    const listing = {
+                        "Dealer Group": group,
+                        "Dealership Name": name,
+                        "Used or New": type,
+                        "URL": (() => {
+                            const titleElm = elm.querySelector('h3 a');
+                            return titleElm ? `${baseUrl}${titleElm.getAttribute('href')}` : "";
+                        })(),
+                        "Year": jsonData.vehicleModelDate,
+                        "Make": jsonData.manufacturer,
+                        "Model": jsonData.model,
+                        "Trim": (() => {
+                            const title = elm.querySelector('h3 a')?.textContent || "";
+                            const yearMakeModel = `${jsonData.vehicleModelDate} ${jsonData.manufacturer} ${jsonData.model}`;
+                            return title.replace(yearMakeModel, "").trim();
+                        })(),
+                        "Price": jsonData.offers?.price || "0",
+                        "Mileage": (() => {
+                            // Convert NodeList to Array so .find() works
+                            const items = [...elm.querySelectorAll('.vehicle-snapshot__main-info-item')];
+                            const mileageElm = items.find(item => item.textContent.includes('Mileage'));
+
+                            if (mileageElm) {
+                                const mileageText = mileageElm.querySelector(".vehicle-snapshot__main-info");
+                                return mileageText ? mileageText.textContent.replace(/[^0-9]/g, "") : "";
+                            } else {
+                                return "";
+                            }
+                        })(),
+                        "Vin#": await (async () => {
+                            const titleElm = elm.querySelector('h3 a');
+                            // await new Promise(r => setTimeout(r, 1000));
+                            const URL = titleElm ? `${baseUrl}${titleElm.getAttribute('href')}` : "";
+                            const detailRes = await fetch(`${URL}`, {
+                                "headers": {
+                                    "accept": "*/*",
+                                    "accept-language": "en-US,en;q=0.9",
+                                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                                    "priority": "u=1, i",
+                                    "sec-ch-device-memory": "8",
+                                    "sec-ch-ua": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\"",
+                                    "sec-ch-ua-arch": "\"x86\"",
+                                    "sec-ch-ua-full-version-list": "\"Not(A:Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"144.0.7559.96\", \"Google Chrome\";v=\"144.0.7559.96\"",
+                                    "sec-ch-ua-mobile": "?0",
+                                    "sec-ch-ua-model": "\"\"",
+                                    "sec-ch-ua-platform": "\"Windows\"",
+                                    "sec-fetch-dest": "empty",
+                                    "sec-fetch-mode": "cors",
+                                    "sec-fetch-site": "same-origin",
+                                    "x-requested-with": "XMLHttpRequest"
+                                },
+                                "referrer": referrer,
+                                "mode": "cors",
+                                "credentials": "include"
+                            });
+                            const detailText = await detailRes.text();
+                            const detailDoc = parser.parseFromString(detailText, 'text/html');
+                            const vinElm = detailDoc.querySelector('.vdp-info-block__info-item-description.js-vin-message');
+                            return vinElm ? vinElm.textContent.trim() : "";
+                        })(),
+                        "Date": new Date().toLocaleDateString("en-US")
+                    };
+                    listings.push(listing);
+                    console.log(listing);
+                };
+                return { listings, totalPages: Math.ceil(totalElm / pageSize) };
+            }
+            const { totalPages } = await singlePage(1, false);
+            const allListings = [];
+            for (let page = 1; page <= totalPages; page++) {
+                console.log(`Fetching page ${page} / ${totalPages}`);
+                const { listings } = await singlePage(page);
+                allListings.push(...listings);
+            }
+            console.log(`Fetched ${allListings.length} total listings`);
+            console.log(allListings);
+            const allListingsDB = new ChromeStorage('allListings');
+            // add with existing
+            const existingListings = await allListingsDB.GET();
+            await allListingsDB.SET(existingListings ? existingListings.concat(allListings) : allListings);
+            return allListings;
         }
-        // widget: async({url,pageSize,type,title})=>{
-        //     const scrapingMeta = contentScripts.scrapingMeta;
-        //     const scrapingMetaIndexDB = new ChromeStorage('scrapingMetaIndex');
-        //     const scrapingMetaIndex = await scrapingMetaIndexDB.GET() || 0;
-        //     const meta = scrapingMeta[scrapingMetaIndex];
-        //     const getSinglePage = async (start) => {
-        //         const data = await fetch(`${url}?start=${start}`, {
-        //             "credentials": "include",
-        //             "headers": {
-        //                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0",
-        //                 "Accept": "*/*",
-        //                 "Accept-Language": "en-US,en;q=0.5",
-        //                 "Sec-Fetch-Dest": "empty",
-        //                 "Sec-Fetch-Mode": "no-cors",
-        //                 "Sec-Fetch-Site": "same-origin",
-        //                 "Pragma": "no-cache",
-        //                 "Cache-Control": "no-cache"
-        //             },
-        //             "referrer": `https://www.nielsenautos.com/new-inventory/index.htm`,
-        //             "method": "GET",
-        //             "mode": "cors"
-        //         });
-        //         const res = await data.json();
-        //         return {
-        //             listings: (()=>{
-        //                 const inventory = res.inventory;
-        //                 const incentives = res.incentives;
-        //                 // console.log(incentives)
-        //                 const listings = [];
-        //                 inventory.map((item)=>{
-        //                     let data = {};
-        //                     item.attributes.map((attribute)=>{
-        //                         const validAttributes = {
-        //                             "stockId" : {
-        //                                 getKey: "value",
-        //                                 storeKey : "stock"
-        //                             },
-        //                             "vin" : {
-        //                                 getKey: "value",
-        //                                 storeKey : "vin"
-        //                             },
-        //                             "exteriorColor" : {
-        //                                 getKey: "normalizedValue",
-        //                                 storeKey : "color"
-        //                             },
-        //                             "accountName" : {
-        //                                 getKey: "value",
-        //                                 storeKey : "location"
-        //                             },
-        //                         };
-        //                         if(validAttributes[attribute.name]){
-        //                             data[validAttributes[attribute.name].storeKey] = attribute[validAttributes[attribute.name].getKey]
-        //                         }
-        //                     });
-        //                     item.incentiveIds?.map((incentiveId)=>{
-        //                         if(incentives[`[${incentiveId}]`]?.make){
-        //                             data.make = incentives[`[${incentiveId}]`].make;
-        //                         }
-        //                     })
-        //                     data = {
-        //                         ...data,
-        //                         price: (()=>{
-        //                             try{
-        //                                 return item.pricing[0]?.value.replace('$','').replace(',','')*1 || item.pricing.retailPrice.replace('$','').replace(',','')*1 || 0;
-        //                             }catch(e){
-        //                                 return 0;
-        //                             }
-        //                         })(),
-        //                         link: (new URL(url).hostname + item.link),
-        //                         type: type,
-        //                         model: item.model,
-        //                         trim: item.title[1].replace(item.model,'').trim(),
-        //                         dealership: new URL(url).hostname,
-        //                         // title[0] 2024 Nissan
-        //                         // regex to get year
-        //                         // year is first ^ 4 digits
-        //                         year: item.title[0].match(/^\d{4}/)[0]*1,
-        //                         make: data.make?data.make:item.title[0].replace(/^\d{4}/,'').trim(),
-        //                     };
-        //                     // console.log(data)
-        //                     listings.push(data);
-        //                 });
-        //                 return listings;
-        //             })(),
-        //             total: res.pageInfo.totalCount,
-        //             pages: Math.ceil(res.pageInfo.totalCount/pageSize)
-        //         }
-
-        //     };
-        //     const {pages} = await getSinglePage(0);
-        //     for(let i=0;i<=pages;i++){
-        //         generalUtilities.showDataOnConsoleDynamic(`${scrapingMetaIndex}/${scrapingMeta.length}:${meta.title}--${i*pageSize}/${pages*pageSize}`);
-        //         const result = (await getSinglePage(i*pageSize)).listings;
-        //         await contentScripts.localServerAPI.addScraped(result);
-        //         break;
-        //     }
-        //     // return results;
-        // },
-        // widget: async({url,pageSize,type,title,baseUrl})=>{
-        //     const scrapingMeta = contentScripts.scrapingMeta;
-        //     const dealerScrapingIndexDB = new ChromeStorage('dealerScrapingIndex');
-        //     let dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //     const meta = scrapingMeta[dealerScrapingIndex];
-        //     const getSinglePage = async (start,message) => {
-        //         const data = await fetch(`${url}?start=${start}`, {
-        //             "credentials": "include",
-        //             "headers": {
-        //                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0",
-        //                 "Accept": "*/*",
-        //                 "Accept-Language": "en-US,en;q=0.5",
-        //                 "Sec-Fetch-Dest": "empty",
-        //                 "Sec-Fetch-Mode": "no-cors",
-        //                 "Sec-Fetch-Site": "same-origin",
-        //                 "Pragma": "no-cache",
-        //                 "Cache-Control": "no-cache"
-        //             },
-        //             "referrer": `${baseUrl}`,
-        //             "method": "GET",
-        //             "mode": "cors"
-        //         });
-        //         const res = await data.json();
-        //         return {
-        //             listings: (()=>{
-        //                 const inventory = res.inventory;
-        //                 const trackingData = res.pageInfo.trackingData;
-        //                 // console.log(incentives)
-        //                 const listings = [];
-        //                 for(let i=0;i<inventory.length;i++){
-        //                     const inventoryItem = inventory[i];
-        //                     const trackingDataItem = trackingData[i];
-        //                     const data = {
-        //                         websiteUrl: new URL(url).hostname,
-        //                         location: trackingDataItem.address?.accountName || '',
-        //                         listingUrl: `${new URL(url).hostname}${trackingDataItem.link}`,
-        //                         stockType: type,
-        //                         stockId: trackingDataItem.stockNumber,
-        //                         year: trackingDataItem.modelYear || '',
-        //                         make: trackingDataItem.make,
-        //                         model: trackingDataItem.model,
-        //                         trim: trackingDataItem.trim,
-        //                         color: (()=>{
-        //                             let color= null;
-        //                             inventoryItem.attributes.map((attribute)=>{
-        //                                 if(attribute.name=='exteriorColor'){
-        //                                     const value = attribute.normalizedValue;
-        //                                     color = value?value:null;
-        //                                 }
-        //                             });
-        //                             return color?color:trackingDataItem.exteriorColor;
-        //                         })(),
-        //                         vin: trackingDataItem.vin,
-        //                         price: (()=>{
-        //                             let price = null;
-        //                             const priceText = trackingDataItem.pricing?.internetPrice || trackingDataItem.pricing?.finalPrice;
-        //                             if(priceText){
-        //                                 price = parseInt(priceText.replace('$','').replace(',',''));
-        //                                 if(isNaN(price)){
-        //                                     price = null;
-        //                                 }
-        //                             }
-        //                             return price;
-        //                         })(),
-        //                         imageUrl: trackingDataItem.images[0]?.uri || trackingDataItem.images[0]?.thumbnail.uri || '',
-        //                     }
-        //                     listings.push(data);
-        //                 }
-        //                 return listings;
-        //             })(),
-        //             total: res.pageInfo.totalCount,
-        //             pages: Math.ceil(res.pageInfo.totalCount/pageSize)
-        //         }
-
-        //     };
-        //     const {pages} = await getSinglePage(0);
-        //     let results = [];
-        //     for(let i=0;i<=pages;i++){
-        //         dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //         generalUtilities.showDataOnConsoleDynamic(`${dealerScrapingIndex+1}/${scrapingMeta.length}:${meta.title}--${i*pageSize}/${pages*pageSize}`);
-        //         const result = (await getSinglePage(i*pageSize)).listings;
-        //         await contentScripts.localServerAPI.addScraped(result);
-        //         console.log(result);
-        //         results = [...results,...result];
-        //         // break;
-        //     }
-        //     return results;
-        // },
-        // fzLayer: async({url,type,pageSize,baseUrl})=>{
-        //     const scrapingMeta = contentScripts.scrapingMeta;
-        //     const dealerScrapingIndexDB = new ChromeStorage('dealerScrapingIndex');
-        //     let dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //     const meta = scrapingMeta[dealerScrapingIndex];
-        //     const getSinglePage = async ({url,page,type,pageSize,baseUrl})=>{
-        //         const res = await fetch(`${url}&pg=${page}`, {
-        //             "credentials": "include",
-        //             "headers": {
-        //                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0",
-        //                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-        //                 "Accept-Language": "en-US,en;q=0.5",
-        //                 "Upgrade-Insecure-Requests": "1",
-        //                 "Sec-Fetch-Dest": "document",
-        //                 "Sec-Fetch-Mode": "navigate",
-        //                 "Sec-Fetch-Site": "none",
-        //                 "Sec-Fetch-User": "?1",
-        //                 "Pragma": "no-cache",
-        //                 "Cache-Control": "no-cache"
-        //             },
-        //             "method": "GET",
-        //             "mode": "cors"
-        //         });
-        //         const html = await res.text();
-        //         const parser = new DOMParser();
-        //         const doc = parser.parseFromString(html, "text/html");
-        //         const listings = [];
-        //         const infoRows = doc.querySelectorAll('.row.srp-vehicle');
-        //         for(let i=0;i<infoRows.length;i++){
-        //             const infoRow = infoRows[i];
-        //             const metas = infoRow.querySelectorAll('meta');
-        //             let data = {};
-        //             metas.forEach((meta)=>{
-        //                 const key = meta.getAttribute('itemprop');
-        //                 const value = meta.getAttribute('content');
-        //                 data[key] = value;
-        //             });
-        //             listings.push(data);
-        //         }
-        //         return {
-        //             listings,
-        //             pages: doc.querySelectorAll('.pagination li').length,
-        //             total: doc.querySelectorAll('.pagination li').length*pageSize
-        //         }
-
-        //     };
-        //     const {pages} = await getSinglePage(1);
-        //     let results = [];
-        //     for(let i=1;i<=pages;i++){
-        //         dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //         generalUtilities.showDataOnConsoleDynamic(`${dealerScrapingIndex+1}/${scrapingMeta.length}:${meta.title}--${i*pageSize}/${pages*pageSize}`);
-        //         const result = (await getSinglePage({url,page:i,type,pageSize,baseUrl})).listings;
-        //         await contentScripts.localServerAPI.addScraped(result);
-        //         console.log(result);
-        //         results = [...results,...result];
-        //         // break;
-
-        //     }
-        //     return results;
-        // },
-        // express: async({url,type,pageSize,baseUrl})=>{
-        //     const scrapingMeta = contentScripts.scrapingMeta;
-        //     const dealerScrapingIndexDB = new ChromeStorage('dealerScrapingIndex');
-        //     let dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //     const meta = scrapingMeta[dealerScrapingIndex];
-        //     const getSinglePage = async (start,message) => {
-        //         console.log(url);
-        //         const data = await fetch(`${url}${start}`, {
-        //             "credentials": "include",
-        //             "headers": {
-        //                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0",
-        //                 "Accept": "application/json, text/plain, */*",
-        //                 "Accept-Language": "en-US,en;q=0.5",
-        //                 "X-NewRelic-ID": "VwYFUl9aCBABVFZQBQIFVVEF",
-        //                 "newrelic": "eyJ2IjpbMCwxXSwiZCI6eyJ0eSI6IkJyb3dzZXIiLCJhYyI6IjMwMjM5OTAiLCJhcCI6IjExMDMyMjI5MDYiLCJpZCI6IjViY2ExNWJjODMzMjkyMjQiLCJ0ciI6ImIxZDVjNDE5MTVhMTBjNzdmMzVlNmJjYzhmYjY0N2E0IiwidGkiOjE3MDY5NDU4MzAzNjMsInRrIjoiMzMzMTI1MSJ9fQ==",
-        //                 "traceparent": "00-b1d5c41915a10c77f35e6bcc8fb647a4-5bca15bc83329224-01",
-        //                 "tracestate": "3331251@nr=0-1-3023990-1103222906-5bca15bc83329224----1706945830363",
-        //                 "X-CSRF-Token": "csrf",
-        //                 "X-Requested-With": "XMLHttpRequest",
-        //                 "Sec-Fetch-Dest": "empty",
-        //                 "Sec-Fetch-Mode": "cors",
-        //                 "Sec-Fetch-Site": "same-origin",
-        //                 "Pragma": "no-cache",
-        //                 "Cache-Control": "no-cache"
-        //             },
-        //             "referrer": "https://express.joycehonda.com/",
-        //             "method": "GET",
-        //             "mode": "cors"
-        //         });
-        //         const res = await data.json();
-        //         return {
-        //             listings: (()=>{
-        //                 const vehicles = res.vehicles;
-        //                 const listings = [];
-        //                 for(let i=0;i<vehicles.length;i++){
-        //                     const vehicle = vehicles[i];
-        //                     const data = {
-        //                         websiteUrl: new URL(url).hostname,
-        //                         location: 'Joyce Honda Denville',
-        //                         listingUrl: `https://express.joycehonda.com/express/${vehicle.vin}`,
-        //                         stockType: type,
-        //                         stockId: vehicle.stock_number,
-        //                         year: vehicle.year,
-        //                         make: vehicle.make,
-        //                         model: vehicle.model,
-        //                         trim: vehicle.trim,
-        //                         color: (()=>{
-        //                             let color= null;
-        //                             if(typeof vehicle.exterior_color=='string'){
-        //                                 color = vehicle.exterior_color;
-        //                             }else if(typeof vehicle.exterior_color=='object'){
-        //                                 color = vehicle.exterior_color?.label || '';
-        //                             }else{
-        //                                 color= ''
-        //                             }
-        //                             return color;
-        //                         })(),
-        //                         vin: vehicle.vin,
-        //                         price: vehicle.msrp,
-        //                         imageUrl: vehicle.images?vehicle.images[0]:null || `${vehicle?.image_prefix}${vehicle?.image_tails[0]}`,
-        //                     }
-        //                     listings.push(data);
-        //                 }
-        //                 return listings;
-        //             })(),
-        //             total: res.total,
-        //             pages: Math.ceil(res.total/pageSize)
-        //         }
-
-        //     };
-        //     const {pages} = await getSinglePage(0);
-        //     let results = [];
-        //     for(let i=0;i<=pages;i++){
-        //         dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //         generalUtilities.showDataOnConsoleDynamic(`${dealerScrapingIndex+1}/${scrapingMeta.length}:${meta.title}--${i*pageSize}/${pages*pageSize}`);
-        //         const result = (await getSinglePage(i*pageSize)).listings;
-        //         await contentScripts.localServerAPI.addScraped(result);
-        //         console.log(result);
-        //         results = [...results,...result];
-        //         // break;
-        //     }
-        //     return results;
-        // },
-        // wagauto: async({url,type,pageSize,baseUrl})=>{
-        //     const scrapingMeta = contentScripts.scrapingMeta;
-        //     const dealerScrapingIndexDB = new ChromeStorage('dealerScrapingIndex');
-        //     let dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //     const meta = scrapingMeta[dealerScrapingIndex];
-        //     const getSinglePage = async (page) => {
-        //         console.log(url);
-        //         const data = await fetch(`${url}${page}`, {
-        //             "headers": {
-        //                 "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        //                 "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-        //                 "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
-        //                 "sec-ch-ua-mobile": "?0",
-        //                 "sec-ch-ua-platform": "\"Windows\"",
-        //                 "sec-fetch-dest": "document",
-        //                 "sec-fetch-mode": "navigate",
-        //                 "sec-fetch-site": "same-origin",
-        //                 "sec-fetch-user": "?1",
-        //                 "upgrade-insecure-requests": "1"
-        //             },
-        //             "referrer": "https://www.wagauto.com/",
-        //             "referrerPolicy": "strict-origin-when-cross-origin",
-        //             "body": null,
-        //             "method": "GET",
-        //             "mode": "cors",
-        //             "credentials": "include"
-        //         });
-        //         const html = await data.text();
-        //         const parser = new DOMParser();
-        //         const doc = parser.parseFromString(html, "text/html");
-        //         const listings = (()=>{
-        //             const vehicles = doc.querySelectorAll('[data-vehicle-information]');
-        //             const listings = [];
-        //             vehicles.forEach((vehicle)=>{
-        //                 const data = {
-        //                     websiteUrl: new URL(url).hostname,
-        //                     location: vehicle.querySelector('.location-info')?.innerText || 'Unknown Location of Wagauto',
-        //                     listingUrl: vehicle.querySelector('.hero-carousel__item--viewvehicle')?.href || '',
-        //                     stockType: type,
-        //                     stockId: vehicle.getAttribute('data-stocknum'),
-        //                     year: vehicle.getAttribute('data-year'),
-        //                     make: vehicle.getAttribute('data-make'),
-        //                     model: vehicle.getAttribute('data-model'),
-        //                     trim: vehicle.getAttribute('data-trim'),
-        //                     color: vehicle.getAttribute('data-extcolor'),
-        //                     vin: vehicle.getAttribute('data-vin'),
-        //                     price: vehicle.getAttribute('data-msrp') || vehicle.getAttribute('data-price'),
-        //                     imageUrl: (()=>{
-        //                         const imgsrc = vehicle.querySelector('.hero-carousel__item--viewvehicle img')?.src || '';
-        //                         // get rid of params
-        //                         return imgsrc.split('?')[0];
-        //                     })(),  
-        //                 };
-        //                 listings.push(data);
-        //             });
-        //             return listings;
-        //         })();
-        //         const count = parseInt(doc.querySelector('.srp-results-count')?.innerText || '');
-        //         const total = isNaN(count)?0:count;
-        //         const pages = Math.ceil(total/pageSize);
-        //         console.log({
-        //             listings,
-        //             total,
-        //             pages
-
-        //         })
-        //         return {
-        //             listings,
-        //             total,
-        //             pages
-        //         }
-        //     };
-        //     const {pages} = await getSinglePage(1);
-        //     // return;
-        //     let results = [];
-        //     for(let i=1;i<=pages;i++){
-        //         dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //         generalUtilities.showDataOnConsoleDynamic(`${dealerScrapingIndex+1}/${scrapingMeta.length}:${meta.title}--${i*pageSize}/${pages*pageSize}`);
-        //         const result = (await getSinglePage(i)).listings;
-        //         await contentScripts.localServerAPI.addScraped(result);
-        //         console.log(result);
-        //         results = [...results,...result];
-        //         // break;
-        //     }
-        //     return results;
-        // },
-        // kiaden: async({url,type,pageSize,baseUrl})=>{
-        //     const scrapingMeta = contentScripts.scrapingMeta;
-        //     const dealerScrapingIndexDB = new ChromeStorage('dealerScrapingIndex');
-        //     let dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //     const meta = scrapingMeta[dealerScrapingIndex];
-        //     const getSinglePage = async (page) => {
-        //         console.log(url);
-        //         const data = await fetch(`${url}${page}`, {
-        //             "credentials": "include",
-        //             "headers": {
-        //                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0",
-        //                 "Accept": "text/html, */*; q=0.01",
-        //                 "Accept-Language": "en-US,en;q=0.5",
-        //                 "X-CSRF-Token": "sFZxEknGGLHGmBHgtzlfJlnaXJDJA9SjSK1SI+urtLhv9vroWbISJ92OslquJqoMCAAoaTtgbOX1pXpqzgxfeg==",
-        //                 "X-Requested-With": "XMLHttpRequest",
-        //                 "Sec-Fetch-Dest": "empty",
-        //                 "Sec-Fetch-Mode": "cors",
-        //                 "Sec-Fetch-Site": "same-origin",
-        //                 "Pragma": "no-cache",
-        //                 "Cache-Control": "no-cache"
-        //             },
-        //             "referrer": "https://www.kiadenvillenj.com/preownedvehicles",
-        //             "method": "GET",
-        //             "mode": "cors"
-        //         });
-        //         const html = await data.text();
-        //         const parser = new DOMParser();
-        //         const doc = parser.parseFromString(html, "text/html");
-        //         const listings = (()=>{
-        //             const vehicles = doc.querySelectorAll('.srp-view-event[data-vin]');
-        //             const listings = [];
-        //             vehicles.forEach((vehicle)=>{
-        //                 const holder = vehicle.parentElement;
-        //                 // const vehicle = vehicleEl.querySelector('.srp-view-event');
-        //                 const data = {
-        //                     websiteUrl: new URL(url).hostname,
-        //                     location: "Gateway KIA of Denville",
-        //                     listingUrl: holder.querySelector('a.preview-images')?.href || '',
-        //                     stockType: type,
-        //                     stockId: vehicle.getAttribute('data-stock'),
-        //                     year: vehicle.getAttribute('data-year'),
-        //                     make: vehicle.getAttribute('data-make'),
-        //                     model: vehicle.getAttribute('data-model'),
-        //                     trim: vehicle.getAttribute('data-trim'),
-        //                     color: vehicle.getAttribute('data-color-exterior') || '',
-        //                     vin: vehicle.getAttribute('data-vin'),
-        //                     price: vehicle.getAttribute('data-msrp') || vehicle.getAttribute('data-price'),
-        //                     imageUrl: holder.querySelector('img[data-src]')?.getAttribute('data-src') || '',  
-        //                 };
-        //                 listings.push(data);
-        //             });
-        //             return listings;
-        //         })();
-        //         const count = parseInt(doc.querySelector('.vehicles-found')?.innerText || '');
-        //         const total = isNaN(count)?0:count;
-        //         const pages = Math.ceil(total/pageSize);
-        //         console.log({
-        //             listings,
-        //             total,
-        //             pages
-
-        //         })
-        //         return {
-        //             listings,
-        //             total,
-        //             pages
-        //         }
-        //     };
-        //     const {pages} = await getSinglePage(1);
-        //     // return;
-        //     let results = [];
-        //     for(let i=1;i<=pages;i++){
-        //         dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
-        //         generalUtilities.showDataOnConsoleDynamic(`${dealerScrapingIndex+1}/${scrapingMeta.length}:${meta.title}--${i*pageSize}/${pages*pageSize}`);
-        //         const result = (await getSinglePage(i)).listings;
-        //         await contentScripts.localServerAPI.addScraped(result);
-        //         console.log(result);
-        //         results = [...results,...result];
-        //         // break;
-        //     }
-        //     return results;
-        // },
-
+    },
+    scrapUpdate: async (text) => {
+        const dealerScrapingIndexDB = new ChromeStorage('dealerScrapingIndex');
+        let dealerScrapingIndex = await dealerScrapingIndexDB.GET() || 0;
+        const scrapingMeta = contentScripts.scrapingMeta;
+        generalUtilities.showDataOnConsoleDynamic(`${dealerScrapingIndex+1} / ${scrapingMeta.length}:: ${text}`);
     },
     scrapingMeta: [
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Matthews Motor Company",
-            "type": "Used",
-            "baseUrl": "https://www.matthewsmotorcompany.com",
-            "referrer": "https://www.matthewsmotorcompany.com/used-inventory/index.htm",
-            "siteId": "matthewsmotorcompanycovington",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-            "pageId": "matthewsmotorcompanycovington_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-            "listingConfigId": "auto-used",
-            "inventoryParametersAccountId": null
-        },
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Blaise Alexander Ford of Mansfield",
-            "type": "New",
-            "baseUrl": "https://www.blaisealexanderfordofmansfield.com",
-            "referrer": "https://www.blaisealexanderfordofmansfield.com/new-inventory/index.htm",
-            "siteId": "blaisealexandermansfieldfordfd",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-            "listingConfigId": "auto-new",
-            "inventoryParametersAccountId": null
-        },
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Blaise Alexander Ford of Mansfield",
-            "type": "Used",
-            "baseUrl": "https://www.blaisealexanderfordofmansfield.com",
-            "referrer": "https://www.blaisealexanderfordofmansfield.com/used-inventory/index.htm?accountId=blaisealexandermansfieldfordfd",
-            "siteId": "blaisealexandermansfieldfordfd",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-            "listingConfigId": "auto-used",
-            "inventoryParametersAccountId": "blaisealexandermansfieldfordfd"
-        },
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Blaise Alexander Chrysler Dodge Jeep Ram Mansfield",
-            "type": "New",
-            "baseUrl": "https://www.blaisealexandercdjr.com",
-            "referrer": "https://www.blaisealexandercdjr.com/new-inventory/index.htm",
-            "siteId": "blaisealexanderchryslerdodgejecllc",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-            "listingConfigId": "auto-new",
-            "inventoryParametersAccountId": null
-        },
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Blaise Alexander Chrysler Dodge Jeep Ram Mansfield",
-            "type": "Used",
-            "baseUrl": "https://www.blaisealexandercdjr.com",
-            "referrer": "https://www.blaisealexandercdjr.com/used-inventory/index.htm?accountId=blaisealexanderchryslerdodgejecllc",
-            "siteId": "blaisealexanderchryslerdodgejecllc",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-            "listingConfigId": "auto-used",
-            "inventoryParametersAccountId": "blaisealexanderchryslerdodgejecllc"
-        },
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Chilson Wilcox",
-            "type": "New",
-            "baseUrl": "https://www.chilsonwilcox.net",
-            "referrer": "https://www.chilsonwilcox.net/new-inventory/index.htm",
-            "siteId": "chilsonwilcoxnycllc",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-            "listingConfigId": "auto-new",
-            "inventoryParametersAccountId": null
-        },
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Chilson Wilcox",
-            "type": "Used",
-            "baseUrl": "https://www.chilsonwilcox.net",
-            "referrer": "https://www.chilsonwilcox.net/used-inventory/index.htm",
-            "siteId": "chilsonwilcoxnycllc",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-            "listingConfigId": "auto-used",
-            "inventoryParametersAccountId": null
-        },
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Simmons-Rockwell Nissan",
-            "type": "New",
-            "baseUrl": "https://www.simmonsrockwellnissan.com",
-            "referrer": "https://www.simmonsrockwellnissan.com/new-inventory/index.htm",
-            "siteId": "simmonsrockwellnissaninc",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-            "pageId": "simmonsrockwellnissaninc_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-            "listingConfigId": "auto-new",
-            "inventoryParametersAccountId": null
-        },
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Simmons-Rockwell Nissan",
-            "type": "Used",
-            "baseUrl": "https://www.simmonsrockwellnissan.com",
-            "referrer": "https://www.simmonsrockwellnissan.com/used-inventory/index.htm",
-            "siteId": "simmonsrockwellnissaninc",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
-            "pageId": "simmonsrockwellnissaninc_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
-            "listingConfigId": "auto-used",
-            "inventoryParametersAccountId": null
-        },
-        {
-            "scrapingType": "getInventory",
-            "group": "A",
-            "name": "Simmons-Rockwell Hyundai",
-            "type": "New",
-            "baseUrl": "https://www.srhyundai.com",
-            "referrer": "https://www.srhyundai.com/new-inventory/index.htm",
-            "siteId": "simmonsrockwellhyundai",
-            "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
-            "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
-            "listingConfigId": "auto-new",
-            "inventoryParametersAccountId": null
-        },
+        // {
+        //     scrapingType: 'searchHtml',
+        //     baseUrl: "https://www.mansfieldmotorspa.com",
+        //     type: "Used",
+        //     name: 'Mansfield Motors',
+        //     referrer: "https://www.mansfieldmotorspa.com/cars-for-sale",
+        //     pageSize: 24,
+        //     group: "A",
+        // },
+        // {
+        //     scrapingType: 'searchHtml',
+        //     baseUrl: "https://www.allwheelsdriven.com",
+        //     type: "Used",
+        //     name: 'All Wheels Driven',
+        //     referrer: "https://www.allwheelsdriven.com/cars-for-sale",
+        //     pageSize: 24,
+        //     group: "A",
+        // },
+        // {
+        //     scrapingType: 'dotnet',
+        //     apiUrl: "https://www.blaisechevymansfield.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28760/3007642?host=www.blaisechevymansfield.com&pn=24&baseFilter=dHlwZT0nbic=&pt=",
+        //     type: "New",
+        //     name: 'Blaise Alexander Chevrolet of Mansfield',
+        //     referrer: "https://www.blaisechevymansfield.com/searchnew.aspx?pt=1",
+        //     baseUrl: "https://www.blaisechevymansfield.com",
+        //     group: "A",
+        // },
+        // {
+        //     scrapingType: 'dotnet',
+        //     apiUrl: "https://www.blaisechevymansfield.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28760/3007684?Dealership=Blaise%20Alexander%20Chevrolet%20of%20Mansfield&host=www.blaisechevymansfield.com&pn=24&baseFilter=dHlwZT0ndSc=&pt=",
+        //     type: "Used",
+        //     name: 'Blaise Alexander Chevrolet of Mansfield',
+        //     referrer: "https://www.blaisechevymansfield.com/searchused.aspx?Dealership=Blaise%20Alexander%20Chevrolet%20of%20Mansfield&pt=1",
+        //     baseUrl: "https://www.blaisechevymansfield.com",
+        //     group: "A",
+        // },
+        // {
+        //     scrapingType: 'dotnet',
+        //     apiUrl: "https://www.elklandchevy.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28190/2948967?Location=Elkland%2C%20PA&host=www.elklandchevy.com&pn=24&baseFilter=dHlwZT0nbic=&pt=",
+        //     type: "New",
+        //     name: 'Elkland Chevy',
+        //     referrer: "https://www.elklandchevy.com/searchnew.aspx?Location=Elkland%2C%20PA",
+        //     baseUrl: "https://www.elklandchevy.com",
+        //     group: "A",
+        // },
+        // {
+        //     scrapingType: 'dotnet',
+        //     apiUrl: "https://www.elklandchevy.com/api/vhcliaa/vehicle-pages/cosmos/srp/vehicles/28190/2949009?Location=Elkland%2C%20PA&host=www.elklandchevy.com&pn=24&baseFilter=dHlwZT0ndSc=&pt=",
+        //     type: "Used",
+        //     name: 'Elkland Chevy',
+        //     referrer: "https://www.elklandchevy.com/searchused.aspx?Location=Elkland%2C%20PA&pt=1",
+        //     baseUrl: "https://www.elklandchevy.com",
+        //     group: "A",
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Matthews Motor Company",
+        //     "type": "Used",
+        //     "baseUrl": "https://www.matthewsmotorcompany.com",
+        //     "referrer": "https://www.matthewsmotorcompany.com/used-inventory/index.htm",
+        //     "siteId": "matthewsmotorcompanycovington",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+        //     "pageId": "matthewsmotorcompanycovington_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+        //     "listingConfigId": "auto-used",
+        //     "inventoryParametersAccountId": null
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Blaise Alexander Ford of Mansfield",
+        //     "type": "New",
+        //     "baseUrl": "https://www.blaisealexanderfordofmansfield.com",
+        //     "referrer": "https://www.blaisealexanderfordofmansfield.com/new-inventory/index.htm",
+        //     "siteId": "blaisealexandermansfieldfordfd",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+        //     "listingConfigId": "auto-new",
+        //     "inventoryParametersAccountId": null
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Blaise Alexander Ford of Mansfield",
+        //     "type": "Used",
+        //     "baseUrl": "https://www.blaisealexanderfordofmansfield.com",
+        //     "referrer": "https://www.blaisealexanderfordofmansfield.com/used-inventory/index.htm?accountId=blaisealexandermansfieldfordfd",
+        //     "siteId": "blaisealexandermansfieldfordfd",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+        //     "listingConfigId": "auto-used",
+        //     "inventoryParametersAccountId": "blaisealexandermansfieldfordfd"
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Blaise Alexander Chrysler Dodge Jeep Ram Mansfield",
+        //     "type": "New",
+        //     "baseUrl": "https://www.blaisealexandercdjr.com",
+        //     "referrer": "https://www.blaisealexandercdjr.com/new-inventory/index.htm",
+        //     "siteId": "blaisealexanderchryslerdodgejecllc",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+        //     "listingConfigId": "auto-new",
+        //     "inventoryParametersAccountId": null
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Blaise Alexander Chrysler Dodge Jeep Ram Mansfield",
+        //     "type": "Used",
+        //     "baseUrl": "https://www.blaisealexandercdjr.com",
+        //     "referrer": "https://www.blaisealexandercdjr.com/used-inventory/index.htm?accountId=blaisealexanderchryslerdodgejecllc",
+        //     "siteId": "blaisealexanderchryslerdodgejecllc",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+        //     "listingConfigId": "auto-used",
+        //     "inventoryParametersAccountId": "blaisealexanderchryslerdodgejecllc"
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Chilson Wilcox",
+        //     "type": "New",
+        //     "baseUrl": "https://www.chilsonwilcox.net",
+        //     "referrer": "https://www.chilsonwilcox.net/new-inventory/index.htm",
+        //     "siteId": "chilsonwilcoxnycllc",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+        //     "listingConfigId": "auto-new",
+        //     "inventoryParametersAccountId": null
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Chilson Wilcox",
+        //     "type": "Used",
+        //     "baseUrl": "https://www.chilsonwilcox.net",
+        //     "referrer": "https://www.chilsonwilcox.net/used-inventory/index.htm",
+        //     "siteId": "chilsonwilcoxnycllc",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+        //     "listingConfigId": "auto-used",
+        //     "inventoryParametersAccountId": null
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Simmons-Rockwell Nissan",
+        //     "type": "New",
+        //     "baseUrl": "https://www.simmonsrockwellnissan.com",
+        //     "referrer": "https://www.simmonsrockwellnissan.com/new-inventory/index.htm",
+        //     "siteId": "simmonsrockwellnissaninc",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+        //     "pageId": "simmonsrockwellnissaninc_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+        //     "listingConfigId": "auto-new",
+        //     "inventoryParametersAccountId": null
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Simmons-Rockwell Nissan",
+        //     "type": "Used",
+        //     "baseUrl": "https://www.simmonsrockwellnissan.com",
+        //     "referrer": "https://www.simmonsrockwellnissan.com/used-inventory/index.htm",
+        //     "siteId": "simmonsrockwellnissaninc",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_USED",
+        //     "pageId": "simmonsrockwellnissaninc_SITEBUILDER_INVENTORY_SEARCH_RESULTS_AUTO_USED_V1_1",
+        //     "listingConfigId": "auto-used",
+        //     "inventoryParametersAccountId": null
+        // },
+        // {
+        //     "scrapingType": "getInventory",
+        //     "group": "A",
+        //     "name": "Simmons-Rockwell Hyundai",
+        //     "type": "New",
+        //     "baseUrl": "https://www.srhyundai.com",
+        //     "referrer": "https://www.srhyundai.com/new-inventory/index.htm",
+        //     "siteId": "simmonsrockwellhyundai",
+        //     "pageAlias": "INVENTORY_LISTING_DEFAULT_AUTO_NEW",
+        //     "pageId": "v9_INVENTORY_SEARCH_RESULTS_AUTO_NEW_V1_1",
+        //     "listingConfigId": "auto-new",
+        //     "inventoryParametersAccountId": null
+        // },
         {
             "scrapingType": "getInventory",
             "group": "A",
@@ -5541,118 +5304,7 @@ const contentScripts = {
             "listingConfigId": "auto-new",
             "inventoryParametersAccountId": null
         }
-        // {
-        //     url: 'https://www.townehyundai.com/apis/widget/INVENTORY_LISTING_DEFAULT_AUTO_USED:inventory-data-bus1/getInventory',
-        //     pageSize: 18,
-        //     type: "Used",
-        //     process: 'widget',
-        //     title: 'Towne Hyundai Used',
-        //     baseUrl: 'townehyundai.com'
-        // },
-        // {
-        //     url: 'https://www.townehyundai.com/apis/widget/INVENTORY_LISTING_DEFAULT_AUTO_CERTIFIED_USED:inventory-data-bus1/getInventory',
-        //     pageSize: 18,
-        //     type: "Used",
-        //     process: 'widget',
-        //     title: 'Towne Hyundai Certified Used',
-        //     baseUrl: 'townehyundai.com'
-        // },
-        // {
-        //     url: 'https://www.townehyundai.com/apis/widget/INVENTORY_LISTING_DEFAULT_AUTO_NEW:inventory-data-bus1/getInventory',
-        //     pageSize: 18,
-        //     type: "New",
-        //     process: 'widget',
-        //     title: 'Towne Hyundai New',
-        //     baseUrl: 'townehyundai.com'
-        // },
-        // {
-        //     url: 'https://www.townetoyota.com/apis/widget/INVENTORY_LISTING_DEFAULT_AUTO_NEW:inventory-data-bus1/getInventory',
-        //     pageSize: 18,
-        //     type: "New",
-        //     process: 'widget',
-        //     title: 'Towne Toyota New',
-        //     baseUrl: 'townetoyota.com'
-        // },
-        // {
-        //     url: 'https://www.townetoyota.com/apis/widget/INVENTORY_LISTING_DEFAULT_AUTO_USED:inventory-data-bus1/getInventory',
-        //     pageSize: 18,
-        //     type: "Used",
-        //     process: 'widget',
-        //     title: 'Towne Toyota Used',
-        //     baseUrl: 'townetoyota.com'
-        // },
-        // {
-        //     url: 'https://www.townetoyota.com/apis/widget/INVENTORY_LISTING_DEFAULT_AUTO_CERTIFIED_USED:inventory-data-bus1/getInventory',
-        //     pageSize: 18,
-        //     type: "Used",
-        //     process: 'widget',
-        //     title: 'Towne Toyota Certified Used',
-        //     baseUrl: 'townetoyota.com'
-        // },
-        // {
-        //     url: 'https://www.route10nissan.com/apis/widget/INVENTORY_LISTING_DEFAULT_AUTO_NEW:inventory-data-bus1/getInventory',
-        //     pageSize: 18,
-        //     type: "New",
-        //     process: 'widget',
-        //     title: 'Route 10 Nissan New',
-        //     baseUrl: 'route10nissan.com'
-        // },
-        // {
-        //     url: 'https://www.route10nissan.com/apis/widget/INVENTORY_LISTING_DEFAULT_AUTO_USED:inventory-data-bus1/getInventory',
-        //     pageSize: 18,
-        //     type: "Used",
-        //     process: 'widget',
-        //     title: 'Route 10 Nissan Used',
-        //     baseUrl: 'route10nissan.com'
-        // },
-        // {
-        //     url: 'https://express.joycehonda.com/api/dealer_used_inventory?offset=',
-        //     pageSize: 30,
-        //     type: "New",
-        //     process: 'express',
-        //     title: 'Joyce Honda New',
-        //     baseUrl: 'express.joycehonda.com'
-        // },
-        // {
-        //     url: 'https://express.joycehonda.com/api/dealer_new_inventory?request_vehicles=1&offset=',
-        //     pageSize: 30,
-        //     type: "Used",
-        //     process: 'express',
-        //     title: 'Joyce Honda Used',
-        //     baseUrl: 'express.joycehonda.com'
-        // },
-        // {
-        //     url: "https://www.wagauto.com/searchnew.aspx?pn=12&pt=",
-        //     pageSize: 12,
-        //     type: "New",
-        //     process: 'wagauto',
-        //     title: 'Wagauto New',
-        //     baseUrl: 'wagauto.com'
-        // },
-        // {
-        //     url: "https://www.wagauto.com/searchused.aspx?pn=12&pt=",
-        //     pageSize: 12,
-        //     type: "Used",
-        //     process: 'wagauto',
-        //     title: 'Wagauto Used',
-        //     baseUrl: 'wagauto.com'
-        // },
-        // {
-        //     url: "https://www.kiadenvillenj.com/newvehicles?page=",
-        //     pageSize: 12,
-        //     type: "New",
-        //     process: 'kiaden',
-        //     title: 'Kia Denville New',
-        //     baseUrl: 'kiadenvillenj.com'
-        // },
-        // {
-        //     url: "https://www.kiadenvillenj.com/preownedvehicles?page=",
-        //     pageSize: 12,
-        //     type: "Used",
-        //     process: 'kiaden',
-        //     title: 'Kia Denville Used',
-        //     baseUrl: 'kiadenvillenj.com'
-        // }
+
 
     ]
 };

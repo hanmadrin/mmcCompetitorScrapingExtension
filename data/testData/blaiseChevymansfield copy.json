@@ -1,0 +1,440 @@
+{
+    "IsAdCard": false,
+    "AdCard": null,
+    "VehicleCard": {
+        "VehicleImageModel": {
+            "HasInventoryOrStockPhotos": true,
+            "ShouldDisplayPriceDropIcon": true,
+            "ShowSpecialIcon": false,
+            "VehicleDetailUrl": "https://www.blaisechevymansfield.com/used-Mansfield-2023-Ford-Super+Duty+F+250+SRW-XL-1FT8W2BNXPEC21592",
+            "VehiclePhotoSrc": "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/thumbs/1.jpg",
+            "DealerName": "Blaise Alexander Chevrolet of Mansfield",
+            "CornerType": "",
+            "SrpImageBreakpointWidthPairs": [
+                {
+                    "Breakpoint": 539,
+                    "Width": 540
+                },
+                {
+                    "Breakpoint": 639,
+                    "Width": 595
+                },
+                {
+                    "Breakpoint": 991,
+                    "Width": 467
+                },
+                {
+                    "Breakpoint": 1299,
+                    "Width": 864
+                },
+                {
+                    "Breakpoint": 1532,
+                    "Width": 1099
+                },
+                {
+                    "Breakpoint": 1919,
+                    "Width": 806
+                },
+                {
+                    "Breakpoint": 1920,
+                    "Width": 1031
+                }
+            ],
+            "VehicleNameHtmlEncoded": null,
+            "Vin": null,
+            "VehicleImageCarouselModel": {
+                "Vin": "1FT8W2BNXPEC21592",
+                "VehicleNameHtmlEncoded": "2023 Ford Super Duty F-250 SRW XL",
+                "DetailedImageCount": 5,
+                "ImageCount": 5,
+                "TotalImageCount": 42,
+                "RedirectLocation": "https://www.blaisechevymansfield.com/used-Mansfield-2023-Ford-Super+Duty+F+250+SRW-XL-1FT8W2BNXPEC21592",
+                "VehicleUxPostion": 0,
+                "PhotoList": [
+                    "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/1.jpg",
+                    "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/2.jpg",
+                    "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/3.jpg",
+                    "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/4.jpg",
+                    "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/5.jpg",
+                    "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/5.jpg"
+                ],
+                "PhotoListDetailed": [
+                    {
+                        "TargetUrl": "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/1.jpg",
+                        "Width": 4080,
+                        "Height": 3060,
+                        "AspectRatio": 1.3333334,
+                        "Is360": false,
+                        "DownloadDate": "2026-01-19T21:49:57Z"
+                    },
+                    {
+                        "TargetUrl": "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/2.jpg",
+                        "Width": 4080,
+                        "Height": 3060,
+                        "AspectRatio": 1.3333334,
+                        "Is360": false,
+                        "DownloadDate": "2026-01-19T21:49:57Z"
+                    },
+                    {
+                        "TargetUrl": "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/3.jpg",
+                        "Width": 4080,
+                        "Height": 3060,
+                        "AspectRatio": 1.3333334,
+                        "Is360": false,
+                        "DownloadDate": "2026-01-19T21:49:57Z"
+                    },
+                    {
+                        "TargetUrl": "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/4.jpg",
+                        "Width": 4080,
+                        "Height": 3060,
+                        "AspectRatio": 1.3333334,
+                        "Is360": false,
+                        "DownloadDate": "2026-01-19T21:49:57Z"
+                    },
+                    {
+                        "TargetUrl": "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/5.jpg",
+                        "Width": 4080,
+                        "Height": 3060,
+                        "AspectRatio": 1.3333334,
+                        "Is360": false,
+                        "DownloadDate": "2026-01-19T21:49:57Z"
+                    },
+                    {
+                        "TargetUrl": "/inventoryphotos/20125/1ft8w2bnxpec21592/ip/5.jpg",
+                        "Width": 4080,
+                        "Height": 3060,
+                        "AspectRatio": 1.3333334,
+                        "Is360": false,
+                        "DownloadDate": "2026-01-19T21:49:57Z"
+                    }
+                ],
+                "CornerType": "",
+                "IsSignalsForYou": false,
+                "BackgroundColorQueryParam": "bg-color=FFFFFF",
+                "SrpImageBreakpointWidthPairs": [
+                    {
+                        "Breakpoint": 539,
+                        "Width": 540
+                    },
+                    {
+                        "Breakpoint": 639,
+                        "Width": 595
+                    },
+                    {
+                        "Breakpoint": 991,
+                        "Width": 467
+                    },
+                    {
+                        "Breakpoint": 1299,
+                        "Width": 864
+                    },
+                    {
+                        "Breakpoint": 1532,
+                        "Width": 1099
+                    },
+                    {
+                        "Breakpoint": 1919,
+                        "Width": 806
+                    },
+                    {
+                        "Breakpoint": 1920,
+                        "Width": 1031
+                    }
+                ],
+                "PhotosUnavailable": false,
+                "PhotosUnavailableLabel": "Vehicle Photos Unavailable Please Check Back Soon",
+                "PhotoLabel": "2023 Ford Super Duty F-250 SRW XL",
+                "BlurCtaBackground": false
+            }
+        },
+        "DealerCommentsIconPath": "resources/components/utilityImages/dealer-comment-icon.svg",
+        "TaggingPrice": "67500",
+        "VehicleUxPosition": 0,
+        "CornerType": "",
+        "LotSeparator": "",
+        "VehicleDetailUrl": "https://www.blaisechevymansfield.com/used-Mansfield-2023-Ford-Super+Duty+F+250+SRW-XL-1FT8W2BNXPEC21592",
+        "PricingPanelContent": "",
+        "Features": [],
+        "VehicleFeaturesModel": {
+            "ShowHighlightsOnly": false,
+            "ShowIconButtonsOnly": true,
+            "ShowHighlightsAndButtons": false,
+            "IsHyundai": false,
+            "ShowHighlights": false,
+            "ShowFeatureDetails": true,
+            "ShowComments": true,
+            "VehicleCommentsEncoded": "Gray Metallic 2023 Ford F-250SD Lariat 4WD 10-Speed Automatic 7.3L V8 PFI OHV 16V Federal 430hp 4WD, 4-Way Adjustable Headrests, 5th Wheel/Gooseneck Hitch Prep Package, Black Tow Hooks, Body-Color Front &amp; Rear Bumpers, Body-Color Mirror Caps, Chrome Exhaust Tip, Dark Painted Grille, F-250 &gt;10K GVWR Package, Front Sensing System, Head-Up Display, Intelligent Adaptive Cruise Control w/Stop-and-Go, Lane Keeping Assist, Lariat Ultimate Package, Navigation system: Connected Navigation, Order Code 608A, Platform Running Boards, Power-Deployable Running Boards, Pro Trailer Backup Assist, Pro Trailer Hitch Assist, Radio: B&amp;O Unleashed Sound System by Bang &amp; Olufsen, SiriusXM Radio w/360L, Sport 4x4 Box Side Decal, Sport Appearance Package, SYNC 4 w/Enhanced Voice Recognition, Tailgate Step &amp; Handle, Tow Technology Package, Upfitter Switches (6), Wheels: 20&quot; Dark Carbonized Gray Painted Aluminum, Wireless Charging Pad.Recent Arrival! Odometer is 11339 miles below market average!",
+            "DealerCommentsIconPath": "resources/components/utilityImages/dealer-comment-icon.svg",
+            "ShowVideoButton": false,
+            "ShowWindowSticker": true,
+            "VehicleVin": "1FT8W2BNXPEC21592",
+            "InvComments": "Gray Metallic 2023 Ford F-250SD Lariat 4WD 10-Speed Automatic 7.3L V8 PFI OHV 16V Federal 430hp 4WD, 4-Way Adjustable Headrests, 5th Wheel/Gooseneck Hitch Prep Package, Black Tow Hooks, Body-Color Front & Rear Bumpers, Body-Color Mirror Caps, Chrome Exhaust Tip, Dark Painted Grille, F-250 >10K GVWR Package, Front Sensing System, Head-Up Display, Intelligent Adaptive Cruise Control w/Stop-and-Go, Lane Keeping Assist, Lariat Ultimate Package, Navigation system: Connected Navigation, Order Code 608A, Platform Running Boards, Power-Deployable Running Boards, Pro Trailer Backup Assist, Pro Trailer Hitch Assist, Radio: B&O Unleashed Sound System by Bang & Olufsen, SiriusXM Radio w/360L, Sport 4x4 Box Side Decal, Sport Appearance Package, SYNC 4 w/Enhanced Voice Recognition, Tailgate Step & Handle, Tow Technology Package, Upfitter Switches (6), Wheels: 20\" Dark Carbonized Gray Painted Aluminum, Wireless Charging Pad.Recent Arrival! Odometer is 11339 miles below market average!",
+            "VehicleHighlightsModel": {
+                "Highlights": [],
+                "FeatureIconPath": "https://cdn.dlron.us/static/industry-automotive/icons/features/",
+                "DisclaimerText": "Feature availability subject to final vehicle configuration. Please reference window sticker for more info.",
+                "ShouldShow": true
+            },
+            "VideoButtonModel": {
+                "FordVideoUrl": "",
+                "HasVideo": false,
+                "IframeVideoUrl": "'/iframevideodisplay.aspx?vin=1FT8W2BNXPEC21592'",
+                "VehicleVin": "1FT8W2BNXPEC21592",
+                "VideoBtnClass": "",
+                "VideoIconPath": "https://cdn.dlron.us/static/industry-automotive/icons/video-icon.svg",
+                "VideoId": "videoBtn",
+                "VideoImgAltText": "Play 2023 Ford Super Duty F-250 SRW XL Video"
+            },
+            "WindowStickersModel": {
+                "ClickEvent": "DoUtility.OpenWindowSticker('/api/vhcliaa/inventory/28760/window-sticker?sv=MQBGAFQAOABXADIAQgBOAFgAUABFAEMAMgAxADUAOQAyAA%3d%3d&make=Ford&vehicleType=U&dealerCode=300214');TrackWindowStickerClick({status: 'Used', year: 2023, make: 'Ford', model: 'Super Duty F-250 SRW', vin: '1FT8W2BNXPEC21592'});",
+                "DataTagging": "data-tagging-item=\"windowsticker\"",
+                "VehicleVin": "1FT8W2BNXPEC21592",
+                "DisclaimerIconPath": "https://cdn.dlron.us/static/industry-automotive/icons/icon_info.svg",
+                "IsHyundaiDealer": false,
+                "IsSubaruDealer": false
+            }
+        },
+        "OemVehicleFeaturesModel": {
+            "ShowOemHighlights": false,
+            "OemFeatureHighlights": null
+        },
+        "VehicleCompareButtonModel": {
+            "CompareType": "new",
+            "ButtonLocation": "GridView",
+            "Vin": "1FT8W2BNXPEC21592",
+            "VehicleLabel": "Ford/Super Duty F-250 SRW/1FT8W2BNXPEC21592"
+        },
+        "TdgHeartModel": {
+            "DivId": "dg-inline-save-inv-",
+            "AppendId": "1FT8W2BNXPEC21592"
+        },
+        "ShowTdgHeart": false,
+        "ShowVehicleSavingHeart": false,
+        "VehicleHighlightsModel": {
+            "Highlights": [],
+            "FeatureIconPath": "https://cdn.dlron.us/static/industry-automotive/icons/features/",
+            "DisclaimerText": "Feature availability subject to final vehicle configuration. Please reference window sticker for more info.",
+            "ShouldShow": true
+        },
+        "VehicleCommentsEncoded": "Gray Metallic 2023 Ford F-250SD Lariat 4WD 10-Speed Automatic 7.3L V8 PFI OHV 16V Federal 430hp 4WD, 4-Way Adjustable Headrests, 5th Wheel/Gooseneck Hitch Prep Package, Black Tow Hooks, Body-Color Front &amp; Rear Bumpers, Body-Color Mirror Caps, Chrome Exhaust Tip, Dark Painted Grille, F-250 &gt;10K GVWR Package, Front Sensing System, Head-Up Display, Intelligent Adaptive Cruise Control w/Stop-and-Go, Lane Keeping Assist, Lariat Ultimate Package, Navigation system: Connected Navigation, Order Code 608A, Platform Running Boards, Power-Deployable Running Boards, Pro Trailer Backup Assist, Pro Trailer Hitch Assist, Radio: B&amp;O Unleashed Sound System by Bang &amp; Olufsen, SiriusXM Radio w/360L, Sport 4x4 Box Side Decal, Sport Appearance Package, SYNC 4 w/Enhanced Voice Recognition, Tailgate Step &amp; Handle, Tow Technology Package, Upfitter Switches (6), Wheels: 20&quot; Dark Carbonized Gray Painted Aluminum, Wireless Charging Pad.Recent Arrival! Odometer is 11339 miles below market average!",
+        "WindowStickerModel": {
+            "ClickEvent": "DoUtility.OpenWindowSticker('/api/vhcliaa/inventory/28760/window-sticker?sv=MQBGAFQAOABXADIAQgBOAFgAUABFAEMAMgAxADUAOQAyAA%3d%3d&make=Ford&vehicleType=U&dealerCode=300214');TrackWindowStickerClick({status: 'Used', year: 2023, make: 'Ford', model: 'Super Duty F-250 SRW', vin: '1FT8W2BNXPEC21592'});",
+            "DataTagging": "data-tagging-item=\"windowsticker\"",
+            "VehicleVin": "1FT8W2BNXPEC21592",
+            "DisclaimerIconPath": "https://cdn.dlron.us/static/industry-automotive/icons/icon_info.svg",
+            "IsHyundaiDealer": false,
+            "IsSubaruDealer": false
+        },
+        "Length": "",
+        "ShowFeatures": true,
+        "ShowHighlights": false,
+        "ShowFeatureDetails": true,
+        "ShowComments": true,
+        "ShowWindowSticker": true,
+        "ShowVideoButton": false,
+        "ShowHighlightsOnly": false,
+        "ShowIconButtonsOnly": true,
+        "ShowHighlightsAndButtons": false,
+        "ShowLength": false,
+        "VehicleCompareModel": {
+            "CompareType": "new",
+            "ButtonLocation": "GridView",
+            "Vin": "1FT8W2BNXPEC21592",
+            "VehicleLabel": "Ford/Super Duty F-250 SRW/1FT8W2BNXPEC21592"
+        },
+        "ShowMileage": true,
+        "Mileage": "39,854 mi",
+        "ShowStatus": false,
+        "VehicleStatusModel": {
+            "VehicleEtaHtml": null,
+            "VehicleStatusHtml": null,
+            "HasStatusInfo": false,
+            "HasVehicleEtaHtml": false,
+            "StatusText": null,
+            "ModalAttrs": null,
+            "CornerType": "",
+            "DisclaimerIconPath": null,
+            "EtaDisplay": null,
+            "ShowEta": false
+        },
+        "ShowVehicleCondition": true,
+        "VehicleCondition": "Used",
+        "ShowSpecs": true,
+        "ShowIdentifiers": true,
+        "ShowVin": true,
+        "ShowStockNumber": true,
+        "ShowModelCode": true,
+        "ManufacturerHighlightsIconsViewModel": {
+            "IsUsed": true,
+            "IsDealerFordOem": false,
+            "FeatureLogosViewModel": {
+                "Logos": [],
+                "CadillacInTransitEta": null
+            },
+            "FordSmartBonus": "",
+            "ShowFordSmartBonus": false,
+            "ConsumerReportsViewModel": {
+                "ConsumerReport": null,
+                "HasConsumerReport": false,
+                "OemName": "ford",
+                "VehicleYear": 2023,
+                "VIN": "1FT8W2BNXPEC21592",
+                "Type": 0
+            },
+            "CpoImage": "",
+            "CpoLink": null,
+            "UseCpoLink": false,
+            "CpoAltTitle": "Certified Pre-Owned",
+            "ShowDefaultCpoLogo": false,
+            "ShowBmwCpoLogo": false,
+            "UseFcaGoldCpoModal": false,
+            "ShowHyundaiCpo": false,
+            "RebateImages": [],
+            "CpoReport": null,
+            "CpoReportImage": "",
+            "HasCpoReportImage": false,
+            "CarHistoryReport": "<a class=\"reportImg icon-img__benefit stat-image-link\" href=\"https://www.carfax.com/vehiclehistory/ar20/s11fqMzrjPJm9ss5tEkDjl2wMoTdFKGu_UdxCHSyks_i6STKrcUxEUMCruSeq4H4RbtvrCuNml0T5L0t5C_yxmLQnxWZYFeoTXY\" rel=\"noopener\" data-loc=\"carfax\" target=\"_blank\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"open\"  data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"hyperlink\" data-dotagging-event-action=\"click\" data-dotagging-element-order=\"0\"> <img class=\"feature-image__benefit\" src=\"https://partnerstatic.carfax.com/img/valuebadge/1own.svg\" alt=\"View CARFAX report\" style=\"width:80px;\" title=\"View CARFAX report\" loading=\"lazy\"></a>\r\n\r\n\r\n\r\n",
+            "HasCarHistoryReport": true,
+            "BmwCpoModalContent": "&lt;ul class=&quot;oem-bmw__cpo--modal-list&quot;&gt;&lt;li&gt;1 Year / Unlimited Miles Limited Warranty&lt;/li&gt;&lt;li&gt;Genuine BMW Parts&lt;/li&gt;&lt;li&gt;360&#176; Vehicle Inspection&lt;/li&gt;&lt;li&gt;Additional 3 years of 24/7 Roadside Assistance&lt;/li&gt;&lt;li&gt;Inspected and reconditioned by BMW Trained technicians&lt;/li&gt;&lt;li&gt;Special financing offers from BMW Financial Services&lt;/li&gt;&lt;li&gt;Extended vehicle protection available from BMW Financial Services&lt;/li&gt;&lt;li&gt;Vehicle History Report provided at no cost&lt;/li&gt;&lt;li&gt;Three months of SiriusXM Satellite Radio*&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;*On appropriately equipped vehicles.&lt;/p&gt;&lt;a href=&quot;/bmwcertified&quot;&gt;Learn More&lt;/a&gt;",
+            "FcaGoldCpoModalContent": null,
+            "CertifiedDisclaimer": ""
+        },
+        "ShowIcons": true,
+        "VehicleLocationDistanceLabel": "",
+        "VehicleLocationLabel": "",
+        "DaysOnLotLabel": null,
+        "ShowDaysOnLot": false,
+        "ShowLocation": false,
+        "ShowLocationDistance": false,
+        "ShowLocationInfo": false,
+        "ShowIconsAndLocation": true,
+        "IsCarBravoVehicle": false,
+        "ShowCpoTier": false,
+        "CpoTierTitle": null,
+        "CpoTierClass": null,
+        "IsBravoBudgetVehicle": false,
+        "IsCosmosTdgEnabled": false,
+        "UseTdgColorClasses": false,
+        "IsHyundai": false,
+        "VehicleMakeAndModel": " Ford Super Duty F-250 SRW ",
+        "IsMiniOem": false,
+        "HasModelEBrochure": false,
+        "DigitalGarageEfcDisclaimerValues": [],
+        "DigitalGarageRtiDisclaimerDescriptions": [],
+        "EligibleBenefitsViewModel": {
+            "BenefitType": "icon",
+            "EligibleBenefits": [],
+            "VehicleVin": "1FT8W2BNXPEC21592"
+        },
+        "WasabiVehiclePricingPanelViewModel": {
+            "AfterCommentCustomContentCollection": [],
+            "BeforeCommentCustomContentCollection": [],
+            "CustomCommentContent": "",
+            "FacebookMessengerContent": "",
+            "PriceStakViewModel": {
+                "PricePreHtml": "",
+                "PriceMainHtml": "",
+                "PriceStakTabsModel": {
+                    "Vin": "1FT8W2BNXPEC21592",
+                    "VehicleType": "Used",
+                    "StakTypeString": "Srp",
+                    "BuyContent": "<pricing-stack>\r\n    <div class=\"vehiclePricingHighlights\">\r\n            <ul class=\"list-unstyled priceBlock priceBlockResponsiveDesktop\">\r\n                <li class=\"priceBlockItem priceBlockItemFeaturedPrice singlePrice \">\r\n  <div class=\"vehiclePricingHighlight featuredPrice\">\r\n    <span class=\"vehiclePricingHighlightAmount \">$67,500</span>\r\n    <span class=\"vehiclePricingHighlightLabel text-cta\">YOUR PRICE</span>\r\n  </div>\r\n</li>\r\n<li class=\"priceBlockItem priceBlockItemDivider \"><hr></li>\r\n            </ul>\r\n    </div>\r\n</pricing-stack>\r\n<pricing-stack>\r\n  <div class=\"vehiclePricingDetails\">\r\n        <ul class=\"list-unstyled priceBlock priceBlockResponsiveDesktop\">\r\n          <li class=\"priceBlockItem priceBlockItemDivider \"><hr /></li>\r\n\r\n        </ul>\r\n  </div>\r\n</pricing-stack>\r\n\r\n<pricing-stack>\r\n    <div class=\"vehicleCallsToAction\">\r\n            <ul class=\"list-unstyled priceBlock priceBlockResponsiveDesktop\">\r\n                <li class=\"priceBlockItem priceBlockItemButton \" data-dealerontrack-position=\"1\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"popup\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-element-text=\"Request More Information\" data-dotagging-element-order=\"1\" data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"cta_button\">\r\n  <a id=\"primaryButtonPageModalButton-1FT8W2BNXPEC21592-desktop-bl-cash-1\" class=\"btn btn-main btn-lg btn-block ePriceBtn stat-button-link dealerontrack\" data-loc=\"available inventory:1FT8W2BNXPEC21592\" style=\"margin-top: 5px\" onclick=\"TrackGeneralCTA(this);\" data-mode=\"DefaultEPriceBlock\" data-year=\"2023\" data-type=\"U\" data-make=\"Ford\" data-model=\"Super Duty F-250 SRW\" data-trim=\"XL\" data-name=\"2023 Ford Super Duty F-250 SRW XL\" data-color=\"Carbonized Gray\" data-stock=\"C2827A\" data-modelcd=\"W2B\" data-vin=\"1FT8W2BNXPEC21592\" data-photo=\"inventoryphotos/20125/1ft8w2bnxpec21592/ip/1.jpg\" data-cpo=\"False\" data-altdealerlocation=\"28760\" data-buttonidentifier=\"f95e606f-934f-446b-9e3f-7fb0f4f5ea5a\" data-elementtype=\"FormButton\" data-epriceconfiglocation=\"UsedSrp\" data-form-title=\"Request More Information\" data-form-subtitle=\"\" data-form-disclaimer=\"\" data-form-button-label=\"\" href=\"javascript:void(0);\" role=\"button\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"Request More Information\" data-dealerontrack-position=\"1\" data-dealerontrack-value=\"SRP\">\r\n    Request More Information\r\n  </a>\r\n</li>\r\n<li class=\"priceBlockItem priceBlockItemButton \" data-dealerontrack-position=\"2\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"redirect\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-element-text=\"View Details\" data-dotagging-element-order=\"2\" data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"cta_button\">\r\n  <a class=\"btn btn-main btn-lg btn-block stat-button-link dealerontrack\" style=\"margin-top: 5px\" data-loc=\"available inventory\" data-mode=\"DefaultEPriceBlock\" data-elementtype=\"LinkButton\" onclick=\"TrackGeneralCTA(this);\" href=\"/used-Mansfield-2023-Ford-Super&#x2B;Duty&#x2B;F&#x2B;250&#x2B;SRW-XL-1FT8W2BNXPEC21592\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"View Details\" data-dealerontrack-position=\"2\" data-dealerontrack-value=\"SRP\">\r\n    View Details\r\n  </a>\r\n</li><li id=\"MMD-1FT8W2BNXPEC21592-desktop-bl-cash-3\" class=\"priceBlockItem priceBlockItemTpi\" style=\"flex-flow:column nowrap;margin-top:10px;\">\r\n</li>\r\n            </ul>\r\n    </div>\r\n</pricing-stack>",
+                    "BuyContentAfterLead": "<pricing-stack>\r\n    <div class=\"vehiclePricingHighlights\">\r\n            <ul class=\"list-unstyled priceBlock priceBlockResponsiveDesktop\">\r\n                <li class=\"priceBlockItem priceBlockItemFeaturedPrice singlePrice \">\r\n  <div class=\"vehiclePricingHighlight featuredPrice\">\r\n    <span class=\"vehiclePricingHighlightAmount \">$67,500</span>\r\n    <span class=\"vehiclePricingHighlightLabel text-cta\">YOUR PRICE</span>\r\n  </div>\r\n</li>\r\n<li class=\"priceBlockItem priceBlockItemDivider \"><hr></li>\r\n            </ul>\r\n    </div>\r\n</pricing-stack>\r\n<pricing-stack>\r\n  <div class=\"vehiclePricingDetails\">\r\n        <ul class=\"list-unstyled priceBlock priceBlockResponsiveDesktop\">\r\n          <li class=\"priceBlockItem priceBlockItemDivider \"><hr /></li>\r\n\r\n        </ul>\r\n  </div>\r\n</pricing-stack>\r\n\r\n<pricing-stack>\r\n    <div class=\"vehicleCallsToAction\">\r\n            <ul class=\"list-unstyled priceBlock priceBlockResponsiveDesktop\">\r\n                <li class=\"priceBlockItem priceBlockItemButton \" data-dealerontrack-position=\"1\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"popup\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-element-text=\"Request More Information\" data-dotagging-element-order=\"1\" data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"cta_button\">\r\n  <a id=\"primaryButtonPageModalButton-1FT8W2BNXPEC21592-desktop-al-cash-1\" class=\"btn btn-main btn-lg btn-block ePriceBtn stat-button-link dealerontrack\" data-loc=\"available inventory:1FT8W2BNXPEC21592\" style=\"margin-top: 5px\" onclick=\"TrackGeneralCTA(this);\" data-mode=\"DefaultEPriceBlock\" data-year=\"2023\" data-type=\"U\" data-make=\"Ford\" data-model=\"Super Duty F-250 SRW\" data-trim=\"XL\" data-name=\"2023 Ford Super Duty F-250 SRW XL\" data-color=\"Carbonized Gray\" data-stock=\"C2827A\" data-modelcd=\"W2B\" data-vin=\"1FT8W2BNXPEC21592\" data-photo=\"inventoryphotos/20125/1ft8w2bnxpec21592/ip/1.jpg\" data-cpo=\"False\" data-altdealerlocation=\"28760\" data-buttonidentifier=\"f95e606f-934f-446b-9e3f-7fb0f4f5ea5a\" data-elementtype=\"FormButton\" data-epriceconfiglocation=\"UsedSrp\" data-form-title=\"Request More Information\" data-form-subtitle=\"\" data-form-disclaimer=\"\" data-form-button-label=\"\" href=\"javascript:void(0);\" role=\"button\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"Request More Information\" data-dealerontrack-position=\"1\" data-dealerontrack-value=\"SRP\">\r\n    Request More Information\r\n  </a>\r\n</li>\r\n<li class=\"priceBlockItem priceBlockItemButton \" data-dealerontrack-position=\"2\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"redirect\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-element-text=\"View Details\" data-dotagging-element-order=\"2\" data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"cta_button\">\r\n  <a class=\"btn btn-main btn-lg btn-block stat-button-link dealerontrack\" style=\"margin-top: 5px\" data-loc=\"available inventory\" data-mode=\"DefaultEPriceBlock\" data-elementtype=\"LinkButton\" onclick=\"TrackGeneralCTA(this);\" href=\"/used-Mansfield-2023-Ford-Super&#x2B;Duty&#x2B;F&#x2B;250&#x2B;SRW-XL-1FT8W2BNXPEC21592\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"View Details\" data-dealerontrack-position=\"2\" data-dealerontrack-value=\"SRP\">\r\n    View Details\r\n  </a>\r\n</li><li id=\"MMD-1FT8W2BNXPEC21592-desktop-al-cash-3\" class=\"priceBlockItem priceBlockItemTpi\" style=\"flex-flow:column nowrap;margin-top:10px;\">\r\n</li>\r\n            </ul>\r\n    </div>\r\n</pricing-stack>",
+                    "MobileBuyContent": "<pricing-stack>\r\n    <div class=\"vehiclePricingHighlights\">\r\n            <ul class=\"list-unstyled priceBlock priceBlockResponsiveMobile\">\r\n                <li class=\"priceBlockItem priceBlockItemFeaturedPrice singlePrice \">\r\n  <div class=\"vehiclePricingHighlight featuredPrice\">\r\n    <span class=\"vehiclePricingHighlightAmount \">$67,500</span>\r\n    <span class=\"vehiclePricingHighlightLabel text-cta\">YOUR PRICE</span>\r\n  </div>\r\n</li>\r\n<li class=\"priceBlockItem priceBlockItemDivider \"><hr></li>\r\n            </ul>\r\n    </div>\r\n</pricing-stack>\r\n<pricing-stack>\r\n  <div class=\"vehiclePricingDetails\">\r\n        <ul class=\"list-unstyled priceBlock priceBlockResponsiveMobile\">\r\n          <li class=\"priceBlockItem priceBlockItemDivider \"><hr /></li>\r\n\r\n        </ul>\r\n  </div>\r\n</pricing-stack>\r\n\r\n<pricing-stack>\r\n    <div class=\"vehicleCallsToAction\">\r\n            <ul class=\"list-unstyled priceBlock priceBlockResponsiveMobile\">\r\n                <li class=\"priceBlockItem priceBlockItemButton \" data-dealerontrack-position=\"1\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"popup\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-element-text=\"Request More Information\" data-dotagging-element-order=\"1\" data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"cta_button\">\r\n  <a id=\"primaryButtonPageModalButton-1FT8W2BNXPEC21592-mobile-bl-cash-1\" class=\"btn btn-main btn-lg btn-block ePriceBtn stat-button-link dealerontrack\" data-loc=\"available inventory:1FT8W2BNXPEC21592\" style=\"margin-top: 5px\" onclick=\"TrackGeneralCTA(this);\" data-mode=\"DefaultEPriceBlock\" data-year=\"2023\" data-type=\"U\" data-make=\"Ford\" data-model=\"Super Duty F-250 SRW\" data-trim=\"XL\" data-name=\"2023 Ford Super Duty F-250 SRW XL\" data-color=\"Carbonized Gray\" data-stock=\"C2827A\" data-modelcd=\"W2B\" data-vin=\"1FT8W2BNXPEC21592\" data-photo=\"inventoryphotos/20125/1ft8w2bnxpec21592/ip/1.jpg\" data-cpo=\"False\" data-altdealerlocation=\"28760\" data-buttonidentifier=\"f95e606f-934f-446b-9e3f-7fb0f4f5ea5a\" data-elementtype=\"FormButton\" data-epriceconfiglocation=\"UsedMobileSrp\" data-form-title=\"Request More Information\" data-form-subtitle=\"\" data-form-disclaimer=\"\" data-form-button-label=\"\" href=\"javascript:void(0);\" role=\"button\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"Request More Information\" data-dealerontrack-position=\"1\" data-dealerontrack-value=\"SRP\">\r\n    Request More Information\r\n  </a>\r\n</li>\r\n<li class=\"priceBlockItem priceBlockItemButton \" data-dealerontrack-position=\"2\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"redirect\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-element-text=\"View Details\" data-dotagging-element-order=\"2\" data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"cta_button\">\r\n  <a class=\"btn btn-main btn-lg btn-block stat-button-link dealerontrack\" style=\"margin-top: 5px\" data-loc=\"available inventory\" data-mode=\"DefaultEPriceBlock\" data-elementtype=\"LinkButton\" onclick=\"TrackGeneralCTA(this);\" href=\"/used-Mansfield-2023-Ford-Super&#x2B;Duty&#x2B;F&#x2B;250&#x2B;SRW-XL-1FT8W2BNXPEC21592\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"View Details\" data-dealerontrack-position=\"2\" data-dealerontrack-value=\"SRP\">\r\n    View Details\r\n  </a>\r\n</li><li class=\"priceBlockItem priceBlockItemButton \r\n    \" data-dealerontrack-position=\"3\" data-dotagging-event=\"click_to_call\" data-dotagging-event-action-result=\"redirect\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-comm-phone-number=\"5702668125\" data-dotagging-department=\"sales\" data-dotagging-affiliation=\"unknown\" data-dotagging-element-position=\"floating\" data-dotagging-element-text=\"Call\" data-dotagging-comm-phone-number=\"5702668125\" data-dotagging-department=\"sales\" data-dotagging-affiliation=\"unknown\" data-dotagging-element-position=\"floating\">\r\n  <a class=\"btn btn-main btn-lg btn-block callNowClass dealerontrack\" style=\"margin-top: 5px\" data-loc=\"2023 Ford Super Duty F-250 SRW XL\" data-mode=\"DefaultEPriceBlock\" data-elementtype=\"LinkButton\" href=\"tel:5702668125\" onclick=\" TrackGeneralCTA(this);  DealerOnTrack.event('Click-to-Call','searchused.aspx','2023 Ford Super Duty F-250 SRW XL-1FT8W2BNXPEC21592'); if(jQuery.browser.mobile){trackerHook({trackId: 91, actionType: 'click'}); ResetTracker(); trackerHook({trackId: 35, actionType: 'click'});}\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"Call\" data-dealerontrack-position=\"3\" data-dealerontrack-value=\"SRP\">\r\n    Call\r\n  </a>\r\n</li><li id=\"MMD-1FT8W2BNXPEC21592-mobile-bl-cash-4\" class=\"priceBlockItem priceBlockItemTpi\" style=\"flex-flow:column nowrap;margin-top:10px;\">\r\n</li><li class=\"priceBlockItem priceBlockItemButton \r\n    \" data-dealerontrack-position=\"5\" data-dotagging-event=\"click_to_call\" data-dotagging-event-action-result=\"redirect\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-comm-phone-number=\"5702668125\" data-dotagging-department=\"sales\" data-dotagging-affiliation=\"unknown\" data-dotagging-element-position=\"floating\" data-dotagging-element-text=\"Click To Call\" data-dotagging-comm-phone-number=\"5702668125\" data-dotagging-department=\"sales\" data-dotagging-affiliation=\"unknown\" data-dotagging-element-position=\"floating\">\r\n  <a class=\"btn btn-main btn-lg btn-block callNowClass dealerontrack\" style=\"margin-top: 5px\" data-loc=\"2023 Ford Super Duty F-250 SRW XL\" data-mode=\"DefaultEPriceBlock\" data-elementtype=\"LinkButton\" href=\"tel:5702668125\" onclick=\" TrackGeneralCTA(this);  DealerOnTrack.event('Click-to-Call','searchused.aspx','2023 Ford Super Duty F-250 SRW XL-1FT8W2BNXPEC21592'); if(jQuery.browser.mobile){trackerHook({trackId: 91, actionType: 'click'}); ResetTracker(); trackerHook({trackId: 35, actionType: 'click'});}\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"Click To Call\" data-dealerontrack-position=\"5\" data-dealerontrack-value=\"SRP\">\r\n    Click To Call\r\n  </a>\r\n</li>\r\n            </ul>\r\n    </div>\r\n</pricing-stack>",
+                    "MobileBuyContentAfterLead": "<pricing-stack>\r\n    <div class=\"vehiclePricingHighlights\">\r\n            <ul class=\"list-unstyled priceBlock priceBlockResponsiveMobile\">\r\n                <li class=\"priceBlockItem priceBlockItemFeaturedPrice singlePrice \">\r\n  <div class=\"vehiclePricingHighlight featuredPrice\">\r\n    <span class=\"vehiclePricingHighlightAmount \">$67,500</span>\r\n    <span class=\"vehiclePricingHighlightLabel text-cta\">YOUR PRICE</span>\r\n  </div>\r\n</li>\r\n<li class=\"priceBlockItem priceBlockItemDivider \"><hr></li>\r\n            </ul>\r\n    </div>\r\n</pricing-stack>\r\n<pricing-stack>\r\n  <div class=\"vehiclePricingDetails\">\r\n        <ul class=\"list-unstyled priceBlock priceBlockResponsiveMobile\">\r\n          <li class=\"priceBlockItem priceBlockItemDivider \"><hr /></li>\r\n\r\n        </ul>\r\n  </div>\r\n</pricing-stack>\r\n\r\n<pricing-stack>\r\n    <div class=\"vehicleCallsToAction\">\r\n            <ul class=\"list-unstyled priceBlock priceBlockResponsiveMobile\">\r\n                <li class=\"priceBlockItem priceBlockItemButton \" data-dealerontrack-position=\"1\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"popup\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-element-text=\"Request More Information\" data-dotagging-element-order=\"1\" data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"cta_button\">\r\n  <a id=\"primaryButtonPageModalButton-1FT8W2BNXPEC21592-mobile-al-cash-1\" class=\"btn btn-main btn-lg btn-block ePriceBtn stat-button-link dealerontrack\" data-loc=\"available inventory:1FT8W2BNXPEC21592\" style=\"margin-top: 5px\" onclick=\"TrackGeneralCTA(this);\" data-mode=\"DefaultEPriceBlock\" data-year=\"2023\" data-type=\"U\" data-make=\"Ford\" data-model=\"Super Duty F-250 SRW\" data-trim=\"XL\" data-name=\"2023 Ford Super Duty F-250 SRW XL\" data-color=\"Carbonized Gray\" data-stock=\"C2827A\" data-modelcd=\"W2B\" data-vin=\"1FT8W2BNXPEC21592\" data-photo=\"inventoryphotos/20125/1ft8w2bnxpec21592/ip/1.jpg\" data-cpo=\"False\" data-altdealerlocation=\"28760\" data-buttonidentifier=\"f95e606f-934f-446b-9e3f-7fb0f4f5ea5a\" data-elementtype=\"FormButton\" data-epriceconfiglocation=\"UsedMobileSrp\" data-form-title=\"Request More Information\" data-form-subtitle=\"\" data-form-disclaimer=\"\" data-form-button-label=\"\" href=\"javascript:void(0);\" role=\"button\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"Request More Information\" data-dealerontrack-position=\"1\" data-dealerontrack-value=\"SRP\">\r\n    Request More Information\r\n  </a>\r\n</li>\r\n<li class=\"priceBlockItem priceBlockItemButton \" data-dealerontrack-position=\"2\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"redirect\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-element-text=\"View Details\" data-dotagging-element-order=\"2\" data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"cta_button\">\r\n  <a class=\"btn btn-main btn-lg btn-block stat-button-link dealerontrack\" style=\"margin-top: 5px\" data-loc=\"available inventory\" data-mode=\"DefaultEPriceBlock\" data-elementtype=\"LinkButton\" onclick=\"TrackGeneralCTA(this);\" href=\"/used-Mansfield-2023-Ford-Super&#x2B;Duty&#x2B;F&#x2B;250&#x2B;SRW-XL-1FT8W2BNXPEC21592\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"View Details\" data-dealerontrack-position=\"2\" data-dealerontrack-value=\"SRP\">\r\n    View Details\r\n  </a>\r\n</li><li class=\"priceBlockItem priceBlockItemButton \r\n    \" data-dealerontrack-position=\"3\" data-dotagging-event=\"click_to_call\" data-dotagging-event-action-result=\"redirect\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-comm-phone-number=\"5702668125\" data-dotagging-department=\"sales\" data-dotagging-affiliation=\"unknown\" data-dotagging-element-position=\"floating\" data-dotagging-element-text=\"Call\" data-dotagging-comm-phone-number=\"5702668125\" data-dotagging-department=\"sales\" data-dotagging-affiliation=\"unknown\" data-dotagging-element-position=\"floating\">\r\n  <a class=\"btn btn-main btn-lg btn-block callNowClass dealerontrack\" style=\"margin-top: 5px\" data-loc=\"2023 Ford Super Duty F-250 SRW XL\" data-mode=\"DefaultEPriceBlock\" data-elementtype=\"LinkButton\" href=\"tel:5702668125\" onclick=\" TrackGeneralCTA(this);  DealerOnTrack.event('Click-to-Call','searchused.aspx','2023 Ford Super Duty F-250 SRW XL-1FT8W2BNXPEC21592'); if(jQuery.browser.mobile){trackerHook({trackId: 91, actionType: 'click'}); ResetTracker(); trackerHook({trackId: 35, actionType: 'click'});}\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"Call\" data-dealerontrack-position=\"3\" data-dealerontrack-value=\"SRP\">\r\n    Call\r\n  </a>\r\n</li><li id=\"MMD-1FT8W2BNXPEC21592-mobile-al-cash-4\" class=\"priceBlockItem priceBlockItemTpi\" style=\"flex-flow:column nowrap;margin-top:10px;\">\r\n</li><li class=\"priceBlockItem priceBlockItemButton \r\n    \" data-dealerontrack-position=\"5\" data-dotagging-event=\"click_to_call\" data-dotagging-event-action-result=\"redirect\" data-dotagging-product-name=\"SRP 2.0|PriceStak\" data-dotagging-event-owner=\"dealeron\" data-dotagging-comm-phone-number=\"5702668125\" data-dotagging-department=\"sales\" data-dotagging-affiliation=\"unknown\" data-dotagging-element-position=\"floating\" data-dotagging-element-text=\"Click To Call\" data-dotagging-comm-phone-number=\"5702668125\" data-dotagging-department=\"sales\" data-dotagging-affiliation=\"unknown\" data-dotagging-element-position=\"floating\">\r\n  <a class=\"btn btn-main btn-lg btn-block callNowClass dealerontrack\" style=\"margin-top: 5px\" data-loc=\"2023 Ford Super Duty F-250 SRW XL\" data-mode=\"DefaultEPriceBlock\" data-elementtype=\"LinkButton\" href=\"tel:5702668125\" onclick=\" TrackGeneralCTA(this);  DealerOnTrack.event('Click-to-Call','searchused.aspx','2023 Ford Super Duty F-250 SRW XL-1FT8W2BNXPEC21592'); if(jQuery.browser.mobile){trackerHook({trackId: 91, actionType: 'click'}); ResetTracker(); trackerHook({trackId: 35, actionType: 'click'});}\" data-dealerontrack-type=\"pricingStack\" data-dealerontrack-subtype=\"button\" data-dealerontrack-category=\"VDP/SRP Buttons\" data-dealerontrack-label=\"Click To Call\" data-dealerontrack-position=\"5\" data-dealerontrack-value=\"SRP\">\r\n    Click To Call\r\n  </a>\r\n</li>\r\n            </ul>\r\n    </div>\r\n</pricing-stack>",
+                    "FinanceContent": null,
+                    "MobileFinanceContent": null,
+                    "LeaseContent": null,
+                    "MobileLeaseContent": null,
+                    "BuyRef": "buy-1FT8W2BNXPEC21592",
+                    "FinanceRef": "finance-1FT8W2BNXPEC21592",
+                    "LeaseRef": "lease-1FT8W2BNXPEC21592"
+                },
+                "PricePostHtml": "",
+                "MobileHtml": "",
+                "IsSimilarVehicle": false,
+                "TpiBelowHtml": ""
+            },
+            "ShowReservedDisclaimer": false,
+            "ShowCustomCommentContent": false
+        },
+        "RvInfoViewModel": {
+            "FloorplanImage": "",
+            "FloorplanLink": "https://www.blaisechevymansfield.com/used-Mansfield-2023-Ford-Super+Duty+F+250+SRW-XL-1FT8W2BNXPEC21592#vehicle-floorplan",
+            "Brand": "",
+            "Manufacturer": "",
+            "ModelName": "",
+            "ShowFloorplan": false,
+            "ShowRvDetails": false,
+            "ShowRvFeatures": false,
+            "ShowSleeps": false,
+            "ShowWeight": false,
+            "Sleeps": 0,
+            "Weight": ""
+        },
+        "TaggingItemType": "Crew Pickup",
+        "ShouldDisplayPriceDropIcon": false,
+        "ShowSpecialIcon": false,
+        "ShowSpecialTags": false,
+        "ExternalColorAccessibilityAttributes": "role='img' aria-label='Carbonized Gray'",
+        "ExteriorColorCode": "#808080",
+        "ExteriorColorIconTitleAttribute": "Carbonized Gray",
+        "ExteriorColorLabel": "Carbonized Gray",
+        "InteriorColorAccessibilityAttributes": "role='img' aria-label='Black Onyx Leather'",
+        "InteriorColorIconTitleAttribute": "Black Onyx Leather",
+        "InteriorColorCode": "#000000",
+        "InteriorColorLabel": "Black Onyx Leather",
+        "ShowColors": true,
+        "ShowExteriorColorLabel": false,
+        "ShowExteriorColorSwatch": true,
+        "ShowInteriorColorLabel": false,
+        "ShowInteriorColorSwatch": true,
+        "DealerId": 28760,
+        "DealerLocatedAtCity": "Mansfield",
+        "DealerLocatedAtId": 28760,
+        "VehicleLocationName": "",
+        "DealerLocatedAtState": "PA",
+        "DealerName": "Blaise Alexander Chevrolet of Mansfield",
+        "ShowDealerLocatedAt": true,
+        "VehicleBodyStyle": "Crew Pickup",
+        "VehicleCarHistoryReport": "<a class=\"reportImg icon-img__benefit stat-image-link\" href=\"https://www.carfax.com/vehiclehistory/ar20/s11fqMzrjPJm9ss5tEkDjl2wMoTdFKGu_UdxCHSyks_i6STKrcUxEUMCruSeq4H4RbtvrCuNml0T5L0t5C_yxmLQnxWZYFeoTXY\" rel=\"noopener\" data-loc=\"carfax\" target=\"_blank\" data-dotagging-event=\"cta_interaction\" data-dotagging-event-action-result=\"open\"  data-dotagging-element-type=\"item_details\" data-dotagging-element-subtype=\"hyperlink\" data-dotagging-event-action=\"click\" data-dotagging-element-order=\"0\"> <img class=\"feature-image__benefit\" src=\"https://partnerstatic.carfax.com/img/valuebadge/1own.svg\" alt=\"View CARFAX report\" style=\"width:80px;\" title=\"View CARFAX report\" loading=\"lazy\"></a>\r\n\r\n\r\n\r\n",
+        "VehicleComments": "Gray Metallic 2023 Ford F-250SD Lariat 4WD 10-Speed Automatic 7.3L V8 PFI OHV 16V Federal 430hp 4WD, 4-Way Adjustable Headrests, 5th Wheel/Gooseneck Hitch Prep Package, Black Tow Hooks, Body-Color Front & Rear Bumpers, Body-Color Mirror Caps, Chrome Exhaust Tip, Dark Painted Grille, F-250 >10K GVWR Package, Front Sensing System, Head-Up Display, Intelligent Adaptive Cruise Control w/Stop-and-Go, Lane Keeping Assist, Lariat Ultimate Package, Navigation system: Connected Navigation, Order Code 608A, Platform Running Boards, Power-Deployable Running Boards, Pro Trailer Backup Assist, Pro Trailer Hitch Assist, Radio: B&O Unleashed Sound System by Bang & Olufsen, SiriusXM Radio w/360L, Sport 4x4 Box Side Decal, Sport Appearance Package, SYNC 4 w/Enhanced Voice Recognition, Tailgate Step & Handle, Tow Technology Package, Upfitter Switches (6), Wheels: 20\" Dark Carbonized Gray Painted Aluminum, Wireless Charging Pad.Recent Arrival! Odometer is 11339 miles below market average!",
+        "VehicleCpo": false,
+        "VehicleCpoReport": null,
+        "VehicleEngine": "8 Cyl",
+        "VehicleExteriorColorCode": "",
+        "VehicleFuelType": "Gasoline Fuel",
+        "VehicleId": 0,
+        "VehicleInProduction": false,
+        "VehicleInStock": true,
+        "VehicleInteriorColorCode": "",
+        "VehicleInternetPrice": 0,
+        "VehicleInTransit": false,
+        "VehicleMake": "Ford",
+        "VehicleModel": "Super Duty F-250 SRW",
+        "VehicleModelCode": "W2B",
+        "VehicleMpgCity": 0,
+        "VehicleMpgHwy": 0,
+        "VehicleMsrp": 67500,
+        "VehicleName": "2023 Ford Super Duty F-250 SRW XL",
+        "VehicleNameHtmlEncoded": "2023 Ford Super Duty F-250 SRW XL",
+        "VehicleOemSpecial": false,
+        "VehiclePhotoCount": 42,
+        "VehiclePriceLibrary": "TVNSUDo2NzUwMC4wO1NlbGxpbmcgUHJpY2U6Njc1MDAuMDtJbnZvaWNlIFByaWNlOjY3NTAwLjA7cmVmZl9GbGF0IEhpZ2ggUHJpY2U6Njc1MDAuMDtyZWZmX0ZsYXQgTG93IFByaWNlOjY3NTAwLjA7Y2FsY19JTlRFUk5FVCBQUklDRTo2NzUwMC4w",
+        "VehicleRuleAdjustedTrim": "XL",
+        "VehicleRuleAdjustedYear": "2023",
+        "VehicleStockNumber": "C2827A",
+        "VehicleTaggingInventoryDate": "2026/01/10",
+        "VehicleTitleAppendText": "",
+        "VehicleTransmission": "Automatic",
+        "VehicleTrim": "XL",
+        "VehicleType": "used",
+        "VehicleVin": "1FT8W2BNXPEC21592",
+        "VehicleYear": 2023,
+        "VehicleCarHistoryReportMxSrp": "\r\n",
+        "VehicleCarHistoryReportMxVdp": "\r\n",
+        "IsSignalsForYou": false,
+        "VehicleLocation": "Blaise Alexander Chevrolet of Mansfield",
+        "VehicleGenericColor": "Gray"
+    }
+}

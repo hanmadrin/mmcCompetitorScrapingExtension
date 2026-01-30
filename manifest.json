@@ -19,7 +19,11 @@
         "https://www.chilsonwilcox.net/*",
         "https://www.simmonsrockwellnissan.com/*",
         "https://www.srhyundai.com/*",
-        "https://www.s-rsubaru.com/*"
+        "https://www.s-rsubaru.com/*",
+        "https://www.blaisechevymansfield.com/*",
+        "https://www.elklandchevy.com/*",
+        "https://www.allwheelsdriven.com/*",
+        "https://www.mansfieldmotorspa.com/*"
     ],
     "action": {
         "default_popup": "popup.html"
@@ -34,7 +38,11 @@
                 "https://www.chilsonwilcox.net/*",
                 "https://www.simmonsrockwellnissan.com/*",
                 "https://www.srhyundai.com/*",
-                "https://www.s-rsubaru.com/*"
+                "https://www.s-rsubaru.com/*",
+                "https://www.blaisechevymansfield.com/*",
+                "https://www.elklandchevy.com/*",
+                "https://www.allwheelsdriven.com/*",
+                "https://www.mansfieldmotorspa.com/*"
             ],
             "js": [
                 "script.js"

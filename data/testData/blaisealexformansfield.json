@@ -1,0 +1,469 @@
+{
+    "inventoryButtons": [
+        {
+            "inventoryType": "both",
+            "inventoryClassification": "all",
+            "device": "both",
+            "btnHref": "/used/Ford/2023-Ford-F-150-c7d9bd6aac18203aee22bcff39733cc9.htm?autoOpen=true&dsLoad=true&route=paymentOptions#mmd-widget",
+            "btnStyle": "primary",
+            "btnTarget": "_self",
+            "btnClasses": "btn-block btn-sm btn-primary btn",
+            "btnAttributes": {
+                "data-location": "vehicle-link-to-vdp-button"
+            },
+            "btnLabel": "Personalize Your Payment",
+            "btnDisabled": false,
+            "showOnListings": true,
+            "showOnDetails": false,
+            "inventoryStatus": "ALL"
+        },
+        {
+            "inventoryType": "both",
+            "inventoryClassification": "all",
+            "device": "both",
+            "btnHref": "/trade-in-advisor.htm?itemId=c7d9bd6aac18203aee22bcff39733cc9&vehicleId=c7d9bd6aac18203aee22bcff39733cc9",
+            "btnStyle": "default",
+            "btnTarget": "_self",
+            "btnClasses": "cst-image",
+            "btnLabel": "KBB Value Your Trade",
+            "btnDisabled": false,
+            "image": "//pictures.dealer.com/b/blaisealexanderchryslerdodgehazletownshipcllc/1940/d291ececd008ba12d6eb8d3ec3ec514ax.jpg",
+            "showOnListings": true,
+            "showOnDetails": true,
+            "inventoryStatus": "ALL"
+        },
+        {
+            "inventoryType": "both",
+            "inventoryClassification": "all",
+            "device": "both",
+            "btnHref": "/check-availability-form.htm?itemId=c7d9bd6aac18203aee22bcff39733cc9&vehicleId=c7d9bd6aac18203aee22bcff39733cc9",
+            "btnStyle": "primary",
+            "btnTarget": "dialog",
+            "btnClasses": "dialog btn-block btn-sm btn-primary btn",
+            "btnAttributes": {
+                "data-location": "vehicle-check-availability-button",
+                "data-width": "375"
+            },
+            "btnLabel": "Check Availability",
+            "btnDisabled": false,
+            "showOnListings": true,
+            "showOnDetails": false,
+            "inventoryStatus": "ALL"
+        }
+    ],
+    "trackingAttributes": [
+        {
+            "name": "highwayFuelEconomy",
+            "value": "22.0"
+        },
+        {
+            "name": "exteriorColor",
+            "value": "Race Red",
+            "normalizedValue": "Red"
+        },
+        {
+            "name": "interiorColor",
+            "value": "Baja Tan",
+            "normalizedValue": "Beige"
+        },
+        {
+            "name": "engineSize",
+            "value": "5.0L"
+        },
+        {
+            "name": "autodataCaId",
+            "value": "CAD30FOT11AA0"
+        },
+        {
+            "name": "transmission",
+            "value": "Automatic"
+        },
+        {
+            "name": "fuelType",
+            "value": "Gasoline Fuel"
+        },
+        {
+            "name": "normalFuelType",
+            "value": "Gasoline"
+        },
+        {
+            "name": "odometer",
+            "value": "55412"
+        },
+        {
+            "name": "cityFuelEconomy",
+            "value": "17.0"
+        },
+        {
+            "name": "engine",
+            "value": "8"
+        }
+    ],
+    "trackingPricing": {
+        "internetPrice": "$46,000",
+        "salePrice": "0",
+        "retailValue": "46000",
+        "msrp": "0",
+        "askingPrice": "46000"
+    },
+    "newCarBoost": false,
+    "certified": false,
+    "condition": "Used",
+    "year": 2023,
+    "attributes": [
+        {
+            "name": "engine",
+            "label": "Engine",
+            "value": "5.0L 8",
+            "labeledValue": "5.0L 8 Engine"
+        },
+        {
+            "name": "transmission",
+            "label": "Transmission",
+            "value": "Automatic",
+            "labeledValue": "Automatic "
+        },
+        {
+            "name": "odometer",
+            "label": "Mileage",
+            "value": "55,412 miles",
+            "labeledValue": "Mileage: 55,412 miles "
+        },
+        {
+            "name": "fuelEconomy",
+            "label": "EPA-Est MPG<sup>6</sup>",
+            "value": "17/22",
+            "labeledValue": "17/22 MPG City/Hwy"
+        },
+        {
+            "name": "exteriorColor",
+            "label": "Exterior Color",
+            "value": "Race Red",
+            "normalizedValue": "Red",
+            "labeledValue": "Race Red Exterior"
+        },
+        {
+            "name": "interiorColor",
+            "label": "Interior Color",
+            "value": "Baja Tan",
+            "normalizedValue": "Beige",
+            "labeledValue": "Baja Tan Interior"
+        },
+        {
+            "name": "stockNumber",
+            "label": "Stock Number",
+            "value": "AP5255",
+            "labeledValue": "Stock # AP5255 "
+        },
+        {
+            "name": "vin",
+            "label": "VIN",
+            "value": "1FTFW1E53PKD22679",
+            "labeledValue": "VIN 1FTFW1E53PKD22679 "
+        }
+    ],
+    "highlightedAttributes": [
+        {
+            "name": "type",
+            "label": "Condition",
+            "value": "Used",
+            "labeledValue": "Used"
+        },
+        {
+            "name": "normalFuelType",
+            "label": "Fuel Type",
+            "value": "Gasoline",
+            "labeledValue": "Gasoline "
+        },
+        {
+            "name": "odometer",
+            "label": "Odometer (SRP only) ",
+            "value": "55,412 miles",
+            "labeledValue": "Mileage: 55,412 miles "
+        }
+    ],
+    "callout": [
+        {
+            "badgeClasses": [
+                "carfax"
+            ],
+            "href": "https://www.carfax.com/vehiclehistory/ar20/Nc9dQKoTJbnUMU75-THbNrPuaARJ6aVWmd8Og3qU6_ZaNgB2YnceOCYbCPUffQS3QC50TIZHbOgrIo5dYJylOdbRz5aZdUbRFF4",
+            "imageAlt": "Show Me the CARFAX 1-Owner Badge",
+            "imageSrc": "https://partnerstatic.carfax.com/img/valuebadge/1own.svg",
+            "imageTitle": "Show Me the CARFAX 1-Owner Badge",
+            "target": "_blank"
+        }
+    ],
+    "images": [
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "0",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0249/7740f9332a0186fc466ac7b6a0109164x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "1",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1061/c50c1acc9e7985073852e534d49a14dax.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "2",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1739/0a48bf8051929ddd6814f2c85dc7c51dx.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "3",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0044/196faaab53462ef1009ccd1cd9688972x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "4",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1444/ee26ea1c569846a6ac951adec1efc53cx.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "5",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0465/f081aab5578f370dbcbbdc8d28171af6x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "6",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0791/e68e8a74da22bdfe9d6e3c4be94c98dex.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "7",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0827/e1c12675c3a5875ee0e2f85460e44842x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "8",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1881/eb733feae243f998b1a1c4c5052f8ae0x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "9",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1713/8a4ab0978718529b78d330ac41ea8cefx.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "10",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1497/87bae5ab6629a8e46f822adcc366d85ex.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "11",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1965/d4a0207839bb22ccb32684ef5d37ae9fx.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "12",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0428/a558e078a280bc31a6a5dba7b28b12a0x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "13",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0978/1841803c9ffbac9e133a957cf67cb92bx.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "14",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0306/7d716a6b55ca06ff150d44f57d515ed6x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "15",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0909/498499970249cf57e8119c6a0f0c4809x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "16",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0014/2a733ec6ac47231489b833048ba431bdx.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "17",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0903/8f27ea25845e48e64966281f61eb34c4x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "18",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1704/08f3bd8c397f0a1fbdeca7d7f407a17dx.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "19",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1708/bad0ae8ac5720a083d58f25ab56951a0x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "20",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1766/f46feb61ff30fa4cc546691b7b1b770ax.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "21",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0251/4c05731343e0276b1116ec7a4bd9b7e7x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "22",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1920/7eb1f89fd4d0bdb84b6e44ebb598d05cx.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "23",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1780/2a2e0e2e28f470ac437f14fa406f30e8x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "24",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1537/90728edcb241e9bca042480ca333d36fx.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "25",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1342/f3878a89844cef0b3404eeca03f2e5f1x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "26",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0289/94f474679aa034958eb20b27c2be0195x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "27",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0026/a31b7f2ec41b03b2105adca1e57f2034x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "28",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0746/66e7356490032f9ca089586d03abdbbax.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "29",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0066/5bd3e92da67419693d2f8ce6f607da53x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "30",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/1035/22c11b3625e42dc1bdc7cd737af437eax.jpg",
+            "provider": "ACTUAL_PHOTO"
+        },
+        {
+            "alt": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "id": "31",
+            "title": "2023 Ford F-150 LARIAT Truck SuperCrew Cab",
+            "uri": "https://pictures.dealer.com/b/blaisealexandermansfieldfordfd/0867/b6d1cdb106b9441dfb02fd88865f3490x.jpg",
+            "provider": "ACTUAL_PHOTO"
+        }
+    ],
+    "title": [
+        "2023 Ford F-150 LARIAT Truck SuperCrew Cab 8"
+    ],
+    "pricing": {
+        "retailPrice": "$46,000",
+        "dprice": [
+            {
+                "label": "Blaise Price",
+                "type": "TOTAL",
+                "typeClass": "internetPrice",
+                "value": "$46,000",
+                "isFinalPrice": true
+            }
+        ],
+        "vehicle": {
+            "category": "AUTO"
+        },
+        "ePriceStatus": "NON_APPLICABLE"
+    },
+    "accountId": "blaisealexandermansfieldfordfd",
+    "bodyStyle": "Truck SuperCrew Cab",
+    "chromeId": "431580",
+    "link": "/used/Ford/2023-Ford-F-150-c7d9bd6aac18203aee22bcff39733cc9.htm",
+    "make": "Ford",
+    "model": "F-150",
+    "modelCode": "W1E",
+    "stockNumber": "AP5255",
+    "trim": "LARIAT",
+    "uuid": "c7d9bd6aac18203aee22bcff39733cc9",
+    "vin": "1FTFW1E53PKD22679",
+    "inventoryDate": "01/16/2026",
+    "offSite": false,
+    "fuelType": "Gasoline",
+    "optionCodes": [
+        "995-D",
+        "995-B",
+        "-"
+    ],
+    "classification": "primary",
+    "featuredPromotion": false,
+    "spotlightedVehicle": false,
+    "status": "live",
+    "statusInt": 1,
+    "type": "used",
+    "typeInt": 1,
+    "isNewCarBoost": false
+}
