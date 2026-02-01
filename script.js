@@ -733,13 +733,6 @@ const contentScripts = {
         generalUtilities.showDebugButton('Download', async () => {
             const allListingsDB = new ChromeStorage('allListings');
             const allListings = await allListingsDB.GET();
-
-            if (!allListings || allListings.length === 0) {
-                console.warn("No listings to download.");
-                return;
-            }
-
-            // 1. Convert JSON to CSV
             const headers = Object.keys(allListings[0]);
             const csvRows = [
                 headers.join(','), // Header row
@@ -752,6 +745,38 @@ const contentScripts = {
                 )
             ];
             const csvString = csvRows.join('\n');
+
+            if (!allListings) {
+                generalUtilities.showDataOnConsole('No listings to download.');
+
+            } else {
+                generalUtilities.showDataOnConsole(`Download ${allListings.length} listings.`);
+                // :4566/api/sendMail
+                const response = await fetch('http://localhost:4566/api/sendMail', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data: csvString,count: allListings.length }),
+                });
+                const data = await response.json();
+                if(data.status === 'success') {
+                    generalUtilities.showDataOnConsole('Email sent successfully.');
+                    await allListingsDB.SET([]);
+                }else {
+                    generalUtilities.showDataOnConsole('Failed to send email.');
+                }
+            }
+            return
+
+            if (!allListings || allListings.length === 0) {
+                console.warn("No listings to download.");
+                return;
+            }
+
+            // 1. Convert JSON to CSV
+
+            
 
             // 2. Trigger Download
             const blob = new Blob([csvString], { type: 'text/csv' });
@@ -990,7 +1015,7 @@ const contentScripts = {
                         "Trim": item.VehicleCard.VehicleTrim,
                         "Price": item.VehicleCard.VehicleMsrp,
                         // "2 mi" => 2
-                        "Mileage": item.VehicleCard.Mileage?.replace(/\s+mi/g, "") ||"7",
+                        "Mileage": item.VehicleCard.Mileage?.replace(/\s+mi/g, "") || "7",
                         "Vin#": item.VehicleCard.VehicleVin,
                         "Date": new Date().toLocaleDateString("en-US")
                     });
