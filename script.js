@@ -260,7 +260,37 @@ const essentials = {
         });
     }
 }
-
+const globals = {
+    // "Dealer Group": group,
+    // "Dealership Name": name,
+    // // title case
+    // "Used or New": type,
+    // "URL": `${baseUrl}${item.link}`,
+    // "Year": item.year,
+    // "Make": item.make,
+    // "Model": item.model,
+    // "MakeModel": `${item.make} ${item.model}`,
+    // "Trim": item.trim,
+    // "Price": item.trackingPricing?.askingPrice || "0",
+    // "Mileage": item.trackingAttributes.filter(attr => attr.name === "odometer")[0]?.value || "7",
+    // "Vin#": item.vin,
+    // "Date": new Date().toLocaleDateString("en-US")
+    columns: [
+        { date: "Date" },
+        { dealerGroup: "Dealer Group" },
+        { dealershipName: "Dealership Name" },
+        { year: "Year" },
+        { make: "Make" },
+        { makeModel: "MakeModel" },
+        { trim: "Trim" },
+        { mileage: "Mileage" },
+        { price: "Price" },
+        { model: "Model" },
+        { url: "URL" },
+        { usedOrNew: "Used" },
+        { vin: "Vin#" },
+    ]
+}
 const fixedData = {
     metaInformation: {
         extensionSwitch: {
@@ -291,6 +321,7 @@ const fixedData = {
         port: 3535,
 
     },
+
 
 };
 const generalUtilities = {
@@ -730,10 +761,11 @@ const contentScripts = {
         // });
 
         // work on queue
-        generalUtilities.showDebugButton('Download', async () => {
+        generalUtilities.showDebugButton('Send Scraped Data', async () => {
             const allListingsDB = new ChromeStorage('allListings');
             const allListings = await allListingsDB.GET();
-            const headers = Object.keys(allListings[0]);
+            // const headers = Object.keys(allListings[0]);
+            const headers = contentScripts.getColumnheaders();
             const csvRows = [
                 headers.join(','), // Header row
                 ...allListings.map(row =>
@@ -757,41 +789,61 @@ const contentScripts = {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ data: csvString,count: allListings.length }),
+                    body: JSON.stringify({ data: csvString, count: allListings.length }),
                 });
                 const data = await response.json();
-                if(data.status === 'success') {
+                if (data.status === 'success') {
                     generalUtilities.showDataOnConsole('Email sent successfully.');
                     await allListingsDB.SET([]);
-                }else {
+                } else {
                     generalUtilities.showDataOnConsole('Failed to send email.');
                 }
             }
             return
-
-            if (!allListings || allListings.length === 0) {
-                console.warn("No listings to download.");
-                return;
-            }
-
-            // 1. Convert JSON to CSV
-
-            
-
-            // 2. Trigger Download
-            const blob = new Blob([csvString], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'allListings.csv';
-            document.body.appendChild(a);
-            a.click();
-
-            // Cleanup
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         });
+        // if (!allListings || allListings.length === 0) {
+        //     console.warn("No listings to download.");
+        //     return;
+        // }
 
+        // // 1. Convert JSON to CSV
+
+
+
+        // // 2. Trigger Download
+        // const blob = new Blob([csvString], { type: 'text/csv' });
+        // const url = URL.createObjectURL(blob);
+        // const a = document.createElement('a');
+        // a.href = url;
+        // a.download = 'allListings.csv';
+        // document.body.appendChild(a);
+        // a.click();
+
+        // // Cleanup
+        // document.body.removeChild(a);
+        // URL.revokeObjectURL(url);
+
+
+    },
+    getColumnPairs: () => {
+        const columns = globals.columns;
+        const columnsPair = {};
+        for (let i = 0; i < columns.length; i++) {
+            const key = Object.keys(columns[i])[0];
+            const value = columns[i][key];
+            columnsPair[key] = value;
+        }
+        return columnsPair;
+    },
+    getColumnheaders: ()=>{
+        const columns = globals.columns;
+        const headers = [];
+        for (let i = 0; i < columns.length; i++) {
+            const key = Object.keys(columns[i])[0];
+            const value = columns[i][key];
+            headers.push(value);
+        }
+        return headers;
     },
     scrapingProcess: {
         getInventory: async ({
@@ -806,6 +858,8 @@ const contentScripts = {
             listingConfigId,
             inventoryParametersAccountId
         }) => {
+            // columns {key:value}
+            const columnsPair = contentScripts.getColumnPairs();
             const singlePage = async (start = 0) => {
                 const res = await fetch(`${baseUrl}/api/widget/ws-inv-data/getInventory`, {
                     "headers": {
@@ -930,20 +984,20 @@ const contentScripts = {
 
                 for (const item of data.inventory) {
                     listings.push({
-                        "Dealer Group": group,
-                        "Dealership Name": name,
+                        [columnsPair.dealerGroup]: group,
+                        [columnsPair.dealershipName]: name,
                         // title case
-                        "Used or New": type,
-                        "URL": `${baseUrl}${item.link}`,
-                        "Year": item.year,
-                        "Make": item.make,
-                        "Model": item.model,
-                        "MakeModel": `${item.make} ${item.model}`,
-                        "Trim": item.trim,
-                        "Price": item.trackingPricing?.askingPrice || "0",
-                        "Mileage": item.trackingAttributes.filter(attr => attr.name === "odometer")[0]?.value || "7",
-                        "Vin#": item.vin,
-                        "Date": new Date().toLocaleDateString("en-US")
+                        [columnsPair.usedOrNew]: type,
+                        [columnsPair.url]: `${baseUrl}${item.link}`,
+                        [columnsPair.year]: item.year,
+                        [columnsPair.make]: item.make,
+                        [columnsPair.model]: item.model,
+                        [columnsPair.makeModel]: `${item.make} ${item.model}`,
+                        [columnsPair.trim]: item.trim,
+                        [columnsPair.price]: item.trackingPricing?.askingPrice || "0",
+                        [columnsPair.mileage]: item.trackingAttributes.filter(attr => attr.name === "odometer")[0]?.value || "7",
+                        [columnsPair.vin]: item.vin,
+                        [columnsPair.date]: new Date().toLocaleDateString("en-US")
 
                     });
                 }
@@ -979,6 +1033,7 @@ const contentScripts = {
             type,
 
         }) => {
+            const columnsPair = contentScripts.getColumnPairs();
             const singlePage = async (page = 1) => {
                 const res = await fetch(`${apiUrl}${page}`, {
                     "headers": {
@@ -1003,21 +1058,19 @@ const contentScripts = {
                 console.log(data)
                 for (const item of data.DisplayCards) {
                     listings.push({
-                        "Dealer Group": "A",
-                        "Dealership Name": name,
-                        // title case
-                        "Used or New": type,
-                        "URL": item.VehicleCard.VehicleDetailUrl,
-                        "Year": item.VehicleCard.VehicleYear,
-                        "Make": item.VehicleCard.VehicleMake,
-                        "Model": item.VehicleCard.VehicleModel,
-                        "MakeModel": `${item.VehicleCard.VehicleMake} ${item.VehicleCard.VehicleModel}`,
-                        "Trim": item.VehicleCard.VehicleTrim,
-                        "Price": item.VehicleCard.VehicleMsrp,
-                        // "2 mi" => 2
-                        "Mileage": item.VehicleCard.Mileage?.replace(/\s+mi/g, "") || "7",
-                        "Vin#": item.VehicleCard.VehicleVin,
-                        "Date": new Date().toLocaleDateString("en-US")
+                        [columnsPair.dealerGroup]: "A",
+                        [columnsPair.dealershipName]: name,
+                        [columnsPair.usedOrNew]: type,
+                        [columnsPair.url]: item.VehicleCard.VehicleDetailUrl,
+                        [columnsPair.year]: item.VehicleCard.VehicleYear,
+                        [columnsPair.make]: item.VehicleCard.VehicleMake,
+                        [columnsPair.model]: item.VehicleCard.VehicleModel,
+                        [columnsPair.makeModel]: `${item.VehicleCard.VehicleMake} ${item.VehicleCard.VehicleModel}`,
+                        [columnsPair.trim]: item.VehicleCard.VehicleTrim,
+                        [columnsPair.price]: item.VehicleCard.VehicleMsrp,
+                        [columnsPair.mileage]: item.VehicleCard.Mileage?.replace(/\s+mi/g, "") || "7",
+                        [columnsPair.vin]: item.VehicleCard.VehicleVin,
+                        [columnsPair.date]: new Date().toLocaleDateString("en-US")
                     });
                 }
                 return {
@@ -1049,6 +1102,7 @@ const contentScripts = {
             pageSize,
             group
         }) => {
+            const columnsPair = contentScripts.getColumnPairs();
             const singlePage = async (page = 1, vin = true) => {
                 const res = await fetch(`${baseUrl}/inventory/search`, {
                     "headers": {
@@ -1093,24 +1147,24 @@ const contentScripts = {
                     const scriptContent = previousScriptSiblingElm.textContent;
                     const jsonData = JSON.parse(scriptContent);
                     const listing = {
-                        "Dealer Group": group,
-                        "Dealership Name": name,
-                        "Used or New": type,
-                        "URL": (() => {
+                        [columnsPair.dealerGroup]: group,
+                        [columnsPair.dealershipName]: name,
+                        [columnsPair.usedOrNew]: type,
+                        [columnsPair.url]: (() => {
                             const titleElm = elm.querySelector('h3 a');
                             return titleElm ? `${baseUrl}${titleElm.getAttribute('href')}` : "";
                         })(),
-                        "Year": jsonData.vehicleModelDate,
-                        "Make": jsonData.manufacturer,
-                        "Model": jsonData.model,
-                        "MakeModel": `${jsonData.manufacturer} ${jsonData.model}`,
-                        "Trim": (() => {
+                        [columnsPair.year]: jsonData.vehicleModelDate,
+                        [columnsPair.make]: jsonData.manufacturer,
+                        [columnsPair.model]: jsonData.model,
+                        [columnsPair.makeModel]: `${jsonData.manufacturer} ${jsonData.model}`,
+                        [columnsPair.trim]: (() => {
                             const title = elm.querySelector('h3 a')?.textContent || "";
                             const yearMakeModel = `${jsonData.vehicleModelDate} ${jsonData.manufacturer} ${jsonData.model}`;
                             return title.replace(yearMakeModel, "").trim();
                         })(),
-                        "Price": jsonData.offers?.price || "0",
-                        "Mileage": (() => {
+                        [columnsPair.price]: jsonData.offers?.price || "0",
+                        [columnsPair.mileage]: (() => {
                             // Convert NodeList to Array so .find() works
                             const items = [...elm.querySelectorAll('.vehicle-snapshot__main-info-item')];
                             const mileageElm = items.find(item => item.textContent.includes('Mileage'));
@@ -1122,7 +1176,7 @@ const contentScripts = {
                                 return "7";
                             }
                         })(),
-                        "Vin#": await (async () => {
+                        [columnsPair.vin]: await (async () => {
                             const titleElm = elm.querySelector('h3 a');
                             // await new Promise(r => setTimeout(r, 1000));
                             const URL = titleElm ? `${baseUrl}${titleElm.getAttribute('href')}` : "";
@@ -1153,7 +1207,7 @@ const contentScripts = {
                             const vinElm = detailDoc.querySelector('.vdp-info-block__info-item-description.js-vin-message');
                             return vinElm ? vinElm.textContent.trim() : "";
                         })(),
-                        "Date": new Date().toLocaleDateString("en-US")
+                        [columnsPair.date]: new Date().toLocaleDateString("en-US")
                     };
                     listings.push(listing);
                     console.log(listing);
