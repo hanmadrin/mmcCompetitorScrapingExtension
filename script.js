@@ -289,7 +289,10 @@ const globals = {
         { url: "URL" },
         { usedOrNew: "Used" },
         { vin: "Vin#" },
-    ]
+    ],
+    consoleButtons:{
+        start_scraping:'START_SCRAPING_BUTTON',
+    }
 }
 const fixedData = {
     metaInformation: {
@@ -420,10 +423,11 @@ const generalUtilities = {
         };
         consoleBoard.appendChild(refreshButton);
     },
-    showDebugButton: (name, callback) => {
+    showDebugButton: (name, callback,id) => {
         const consoleBoardStandard = document.getElementById(fixedData.workingSelectors.content.console + 'standard');
         const button = document.createElement('button');
         button.classList.add('buttons');
+        if(id) button.id = id;
         button.innerText = name;
         button.onclick = callback;
         consoleBoardStandard.appendChild(button);
@@ -743,7 +747,7 @@ const contentScripts = {
             await allListingsDB.SET([]);
             await workingStepDB.SET('dealerScraping');
             window.location.reload();
-        });
+        },globals.consoleButtons.start_scraping);
         // // Clone Airtable
         // generalUtilities.showDebugButton('Start Cloning Airtable', async () => {
         //     const workingStepDB = new ChromeStorage('workingStep');
@@ -795,6 +799,9 @@ const contentScripts = {
                 if (data.status === 'success') {
                     generalUtilities.showDataOnConsole('Email sent successfully.');
                     await allListingsDB.SET([]);
+                    chrome.runtime.sendMessage({
+                        action: "openNewTab"
+                    });
                 } else {
                     generalUtilities.showDataOnConsole('Failed to send email.');
                 }
@@ -835,7 +842,7 @@ const contentScripts = {
         }
         return columnsPair;
     },
-    getColumnheaders: ()=>{
+    getColumnheaders: () => {
         const columns = globals.columns;
         const headers = [];
         for (let i = 0; i < columns.length; i++) {
@@ -1534,6 +1541,9 @@ const contentSetup = async () => {
                 generalUtilities.clearConsole();
                 generalUtilities.showDataOnConsole('Dealer Scraping Completed');
                 contentScripts.showWorkingStepOptions();
+
+                document.querySelector(`#${globals.consoleButtons.start_scraping}`).click();
+                workingStepDB.SET(null);
                 break;
 
         }
@@ -1550,27 +1560,31 @@ const contentSetup = async () => {
         chrome.runtime.onMessage.addListener(
             function (request, sender, sendResponse) {
                 switch (request.action) {
+                    case 'openNewTab':
+                        chrome.tabs.update(sender.tab.id, { url: "chrome://newtab/" });
+                        break;
                     case 'userLogout':
                         chrome.cookies.remove({ "url": 'https://facebook.com', "name": 'c_user' }, function (cookie) {
                             sendResponse('success');
                         });
-                        return true;
+                        // return true;
                         break;
                     case 'positionWindow':
                         console.log('positionWindow')
                         generalUtilities.positionWindow().then(() => {
                             sendResponse('success');
                         });
-                        return true;
+                        // return true;
                         break;
                     case 'windowPosition':
                         console.log('windowPosition')
                         generalUtilities.windowPosition().then((windowPosition) => {
                             sendResponse(windowPosition);
                         })
-                        return true;
+                        // return true;
                         break;
                 }
+                return true;
             }
         );
     } else {
